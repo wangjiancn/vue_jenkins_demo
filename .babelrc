@@ -1,0 +1,22 @@
+{
+    "presets": [
+        [
+            "@babel/preset-env",
+            {
+                "modules": false //会让Tree-Shaking失效 https://panjiachen.github.io/awesome-bookmarks/blog/webpack/webpack4-a.html#tree-shaking
+            }
+        ]
+    ],
+    "plugins": [
+        "transform-vue-jsx",
+        "@babel/plugin-transform-runtime",
+        "@babel/plugin-syntax-dynamic-import",
+    ],
+    "env": {
+        "development": {
+            "plugins": [
+                "dynamic-import-node"
+            ]
+        }
+    },
+}
