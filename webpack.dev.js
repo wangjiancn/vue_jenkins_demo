@@ -8,14 +8,16 @@ module.exports = merge(common, {
   devtool: 'inline-cheap-source-map',
   plugins: [
     new BundleAnalyzerPlugin({
-      openAnalyzer: false
+      openAnalyzer: false,
     }),
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
   ],
   devServer: {
     hot: true,
     proxy: {
-      '/': 'http://127.0.0.1:8000'
-    }
-  }
+      '/': 'http://127.0.0.1:8000',
+    },
+    // disableHostCheck: true,
+    host: '0.0.0.0',
+  },
 })

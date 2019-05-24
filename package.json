@@ -5,9 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --mode=production --config webpack.prod.js",
-    "start": "BABEL_ENV=development webpack-dev-server --config webpack.dev.js",
-    "watch": "webpack --watch",
-    "dev": "webpack-dev-server --inline "
+    "dev": "BABEL_ENV=development webpack-dev-server --config webpack.dev.js",
+    "watch": "webpack --watch"
   },
   "keywords": [
     "blog",
