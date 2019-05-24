@@ -14,15 +14,22 @@
       ></mavonEditor>
     </div>
     <div class="button-wrapper">
-      <Meta
-        :dynamic-tags="dynamicTags"
-        @change="handleChange"
-      />
+      <Meta v-model="meta" />
       <el-button
         size="small"
         type="primary"
         @click="saveMD"
       >立即创建</el-button>
+      <el-button
+        size="small"
+        type="primary"
+        @click="saveMD"
+      >存为草稿</el-button>
+      <el-button
+        size="small"
+        type="primary"
+        @click="saveMD"
+      >返回</el-button>
     </div>
   </div>
 </template>
@@ -42,7 +49,7 @@ export default {
         title: '',
         markdown: 'hello world',
       },
-      dynamicTags: [],
+      meta: { tags: [], cat: '', desc: '', kind: '', private: false },
     }
   },
   created() {
@@ -53,8 +60,12 @@ export default {
       const id = this.$route.params.id
       if (id) {
         const { data } = await fetchArticle(this.$route.params.id)
+        console.log('TCL: loadItems -> data', data)
         this.postData = { ...data }
-        this.dynamicTags = data.tags.map(i => i.uuid)
+        this.meta.tags = data.tags.map(i => i.id)
+        this.meta.cat = data.cat_id
+        this.meta.desc = data.desc
+        this.meta.kind = data.kind
       }
     },
     async saveMD() {
@@ -63,13 +74,16 @@ export default {
         title: this.postData.title,
         markdown: this.postData.markdown,
         body: this.$refs.md.d_render,
-        tags: this.dynamicTags,
+        ...this.meta,
       }
       const data = await updateOrCreatePost(post, id)
       this.$notify({ title: '成功', type: 'success' })
     },
-    handleChange(e) {
+    handleTagChange(e) {
       this.dynamicTags = e
+    },
+    handleCatChange(e) {
+      this.cat = e
     },
   },
 }
