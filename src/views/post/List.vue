@@ -29,10 +29,11 @@
     </div>
     <div class="pagination">
       <el-pagination
-        :page-size="20"
-        :pager-count="11"
+        :page-size="pageSize"
         layout="prev, pager, next"
-        :total="1000"
+        :total="total"
+        @prev-click="handlePageChange"
+        @current-change="handlePageChange"
       >
       </el-pagination>
     </div>
@@ -46,7 +47,15 @@ export default {
   data() {
     return {
       items: [],
+      total: 0,
+      pageSize: 10,
+      currentPage: 1,
     }
+  },
+  computed: {
+    pageCount: function() {
+      return Math.ceil(this.total / this.pageSize)
+    },
   },
   watch: {
     $route() {
@@ -58,12 +67,20 @@ export default {
   },
   methods: {
     async loadItems() {
-      console.log('TCL: loadItems -> this.$route.query', this.$route.query)
+      const query = {
+        ...this.$route.query,
+        limit: this.pageSize,
+        offset: (this.currentPage - 1) * this.pageSize,
+      }
       const {
         data: { objects, meta },
-      } = await fetchArticles(this.$route.query)
-      console.log('TCL: loadItems -> objects, meta', objects, meta)
+      } = await fetchArticles(query)
       this.items = objects
+      this.total = meta.total_count
+    },
+    handlePageChange(page) {
+      this.currentPage = page
+      this.loadItems()
     },
   },
 }

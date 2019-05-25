@@ -56,8 +56,12 @@
           <router-view></router-view>
         </div>
         <div class="side-nav">
-          <Tag></Tag>
-          <Cat></Cat>
+          <keep-alive>
+            <router-view name="tag"></router-view>
+          </keep-alive>
+          <keep-alive>
+            <router-view name="cat"></router-view>
+          </keep-alive>
         </div>
       </div>
     </div>
@@ -68,11 +72,9 @@
 <script>
 import Login from '@/views/access/Login.vue'
 import { logout } from '@/api/auth'
-import Tag from '@/views/post/Tags.vue'
-import Cat from '@/views/post/Cats.vue'
 
 export default {
-  components: { Login, Tag, Cat },
+  components: { Login },
   data() {
     return {
       isLogin: true,

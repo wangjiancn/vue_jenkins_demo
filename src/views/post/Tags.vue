@@ -25,11 +25,6 @@ export default {
       items: [],
     }
   },
-  watch: {
-    $route() {
-      this.loadItems()
-    },
-  },
   async created() {
     this.loadItems()
   },
