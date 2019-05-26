@@ -152,8 +152,8 @@ export default {
       min-height: 600px;
     }
     .side-nav {
-      // width: 300px;
-      width: 40%;
+      width: 500px;
+      // width: 40%;
       float: right;
     }
   }

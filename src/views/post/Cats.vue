@@ -62,11 +62,10 @@ export default {
       margin-bottom: 0.3rem;
       text-align: center;
       font-size: 0.6rem;
-      padding: 0.2rem 0.3rem;
-      border-radius: 0.2rem;
+      line-height: 1rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 0.8rem;
       border: 1px solid #999;
-      flex-shrink: 0.8;
-      flex-grow: 1;
     }
     .link {
       display: inline;

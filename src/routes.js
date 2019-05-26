@@ -27,10 +27,6 @@ const routes = [
         path: '/post',
         components: { default: List, tag: Tag, cat: Cat },
       },
-      {
-        path: '/post/:id',
-        components: { default: Detail, tag: Tag, cat: Cat },
-      },
     ],
   },
   {
@@ -41,6 +37,10 @@ const routes = [
         path: '/md',
         component: MavoEditor,
         children: [{ path: ':id', component: MavoEditor }],
+      },
+      {
+        path: '/post/:id',
+        components: { default: Detail, tag: Tag, cat: Cat },
       },
       { path: '/ck', component: CKEditor },
     ],

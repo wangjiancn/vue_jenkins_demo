@@ -3,7 +3,6 @@
     <div class="container">
       <h1 class="post-title">{{ post.title }}</h1>
       <div class="meta-warpper">
-        <router-link :to="'/post/'+(post.id+1)">{{ post.title }}</router-link>
         <span class="post-meta">作者:{{ post.author ? post.author.nickname || post.author.username : '' }}</span>
         <span class="post-meta">最后更新:{{ $dayjs(post.last_modified,{locale:'zh-cn'}).fromNow() }}</span>
         <span

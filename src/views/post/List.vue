@@ -10,13 +10,13 @@
           <router-link :to="`/post/${item.id}`">{{ item.title }}</router-link>
         </h1>
         <div class="post-meta">
-          <span class="post-meta">作者:{{ item.author ? item.author.nickname || item.author.username : '' }}</span>
-          <span class="post-meta">最后更新:{{ $dayjs(item.last_modified,{locale:'zh-cn'}).fromNow() }}</span>
+          <span class="post-meta-item">作者:{{ item.author ? item.author.nickname || item.author.username : '' }}</span>
+          <span class="post-meta-item">最后更新:{{ $dayjs(item.last_modified,{locale:'zh-cn'}).fromNow() }}</span>
           <span
             v-if="item.cat"
-            class="post-meta"
+            class="post-meta-item"
           >分类: <router-link :to="`/post?cat__id=${item.cat.id}`">{{ item.cat.name }}</router-link> </span>
-          <span class="post-meta">标签:
+          <span class="post-meta-item">标签:
             <router-link
               v-for="tag in item.tags"
               :key="tag.uuid"
@@ -24,7 +24,7 @@
             >
               {{ tag.name }}</router-link> </span>
         </div>
-        <p>{{ item.desc }}</p>
+        <div class="post-desc">{{ item.desc }}</div>
       </div>
     </div>
     <div class="pagination">
@@ -91,28 +91,35 @@ export default {
   padding-right: 40px;
 }
 .post {
-  white-space: nowrap;
   margin-bottom: 0.6rem;
-  border: 1px solid #999999;
-  border-radius: 0.2rem;
+  border-bottom: 1px solid #999999;
   width: 100%;
   padding: 10px;
   .post-body {
     margin: 5px;
   }
   .post-title {
-    font-size: 1.8rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 1.1rem;
     margin: 0 auto;
     text-align: left;
   }
   .post-meta {
     font-size: 0.7rem;
     color: #888888;
-    display: inline;
+    line-height: 1.2rem;
+    &-item {
+      font-size: 0.7rem;
+      color: #888888;
+      display: inline-block;
+    }
   }
-  p {
+  .post-desc {
+    display: inline-block;
     margin: 0;
-    font-size: 1rem;
+    font-size: 0.9rem;
+    white-space: wrap;
   }
   a,
   a:hover,
