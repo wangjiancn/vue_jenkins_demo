@@ -61,54 +61,53 @@
   </transition>
 </template>
 <script>
-import { login, register } from "@/api/auth";
+import { login, register } from '@/api/auth'
 
 export default {
   props: {
     isLogin: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   data() {
     return {
       UserData: {
-        username: "",
-        password: ""
-      }
-    };
+        username: '',
+        password: '',
+      },
+    }
   },
   computed: {
     Mode: function() {
-      return this.isLogin ? "登录" : "注册";
+      return this.isLogin ? '登录' : '注册'
     },
     anthor: function() {
-      return this.isLogin ? "注册新帐号" : "登录已有帐号";
-    }
+      return this.isLogin ? '注册新帐号' : '登录已有帐号'
+    },
   },
   methods: {
     async submit() {
-      delete this.UserData.checkPassword;
+      delete this.UserData.checkPassword
       if (this.isLogin) {
         login(this.UserData).then(res => {
-          console.log("TCL: submit -> res", res);
-          this.$store.commit("setJWT", res.data);
-        });
+          this.$store.commit('setJWT', res.data)
+        })
       } else {
         register(this.UserData).then(res => {
-          this.$store.commit("setJWT", res.data);
-        });
+          this.$store.commit('setJWT', res.data)
+        })
       }
-      this.handleClose();
+      this.handleClose()
     },
     toggleMode() {
-      this.$emit("toggle");
+      this.$emit('toggle')
     },
     handleClose() {
-      this.$emit("close");
-    }
-  }
-};
+      this.$emit('close')
+    },
+  },
+}
 </script>
 <style lang="scss" scoped>
 .dialog {

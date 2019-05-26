@@ -1,9 +1,9 @@
 const CKEditor = () => ({
-  component: import(/* webpackChunkName: "group-ck" */ '@/views/editor/CKEditor.vue'),
+  component: import(/* webpackChunkName: "ckeditor" */ '@/views/editor/CKEditor.vue'),
 })
 
 const MavoEditor = () => ({
-  component: import(/* webpackChunkName: "group-md" */ '@/views/editor/MavoEditor.vue'),
+  component: import(/* webpackChunkName: "mavoeditor" */ '@/views/editor/MavoEditor.vue'),
 })
 
 import Tag from '@/views/post/Tags.vue'
