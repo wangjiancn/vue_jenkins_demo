@@ -2,6 +2,7 @@ import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import 'dayjs/locale/zh-cn'
 import ElementUI from 'element-ui'
+import '@/styles/global.css'
 import 'element-ui/lib/theme-chalk/index.css'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
@@ -18,6 +19,13 @@ const router = new VueRouter({
 })
 
 dayjs.extend(relativeTime)
+
+Vue.directive('highlight', function(el) {
+  let blocks = el.querySelectorAll('pre code')
+  blocks.forEach(block => {
+    hljs.highlightBlock(block)
+  })
+})
 
 Vue.prototype.$dayjs = dayjs
 

@@ -1,0 +1,13 @@
+@tailwind base;
+@import '~element-ui/lib/theme-chalk/index.css';
+
+@tailwind components;
+
+@tailwind utilities;
+
+html {
+  min-width: 640px;
+}
+body {
+  margin: 0;
+}
