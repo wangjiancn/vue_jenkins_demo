@@ -3,8 +3,9 @@ const common = require('./webpack.common.js')
 const merge = require('webpack-merge')
 const TerserPlugin = require('terser-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
-module.exports = merge(common, {
+const config = merge.smart(common, {
   output: {
     path: '/home/wangj/PycharmProjects/DjangoForBlog/blog/dist/',
     filename: 'static/js/[name].[hash].js',
@@ -31,6 +32,12 @@ module.exports = merge(common, {
     },
   },
   plugins: [
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // both options are optional
+      filename: 'static/css/[name].css',
+      chunkFilename: 'static/css/[name].[hash:5].css',
+    }),
     new HtmlWebpackPlugin({
       title: 'Blog', // 输出到dist/index.html的title
       template: 'src/index.html',
@@ -40,4 +47,26 @@ module.exports = merge(common, {
       'process.env.NODE_ENV': JSON.stringify('production'),
     }),
   ],
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              // you can specify a publicPath here
+              // by default it uses publicPath in webpackOptions.output
+              publicPath: 'static/css',
+              hmr: process.env.NODE_ENV === 'development',
+            },
+          },
+          'css-loader',
+          'postcss-loader',
+        ],
+      },
+    ],
+  },
 })
+
+module.exports = config

@@ -6,16 +6,16 @@ const CleanWebpackPlugin = require('clean-webpack-plugin') // 清理目录
 
 module.exports = {
   entry: {
-    main: './src/index.js'
+    main: './src/index.js',
   },
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: '[hash].js'
+    path: path.resolve(__dirname, '../dist'),
+    filename: '[hash].js',
   },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, 'src')
-    }
+      '@': path.resolve(__dirname, '../src'),
+    },
   },
   optimization: {
     splitChunks: {
@@ -24,25 +24,27 @@ module.exports = {
       cacheGroups: {
         vendors: {
           test: /[\\/]node_modules[\\/]/,
-          priority: -10
+          priority: -10,
         },
         default: {
           minChunks: 2,
           priority: -20,
-          reuseExistingChunk: true
-        }
-      }
-    }
+          reuseExistingChunk: true,
+        },
+      },
+    },
   },
   plugins: [
-    new CleanWebpackPlugin({}), //清理dist目录
+    new CleanWebpackPlugin({
+      cleanOnceBeforeBuildPatterns: ['**/*', '!.gitkeep'],
+    }), //清理dist目录,忽略.gitkeep
     new HtmlWebpackPlugin({
       title: 'Blog', // 输出到dist/index.html的title
       template: 'src/index.html',
-      filename: 'index.html'
+      filename: 'index.html',
     }),
     new webpack.NamedModulesPlugin(),
-    new VueLoaderPlugin()
+    new VueLoaderPlugin(),
   ],
   module: {
     rules: [
@@ -51,23 +53,28 @@ module.exports = {
       { test: /\.js$/, use: ['babel-loader'], exclude: /node_modules/ },
       {
         test: /\.s(c|a)ss$/,
-        use: ['vue-style-loader', 'css-loader', 'sass-loader']
+        use: [
+          'vue-style-loader',
+          'css-loader',
+          'postcss-loader',
+          'sass-loader',
+        ],
       },
       {
         test: /\.css$/,
         use: [
           'vue-style-loader',
           { loader: 'css-loader', options: { importLoaders: 1 } },
-          'postcss-loader'
-        ]
+          'postcss-loader',
+        ],
       },
       {
         test: /\.postcss$/,
         use: [
           'vue-style-loader',
           { loader: 'css-loader', options: { importLoaders: 1 } },
-          'postcss-loader'
-        ]
+          'postcss-loader',
+        ],
       },
       {
         test: /\.(png|jpg|gif)$/,
@@ -78,10 +85,10 @@ module.exports = {
               name: '[name]-[hash:5].min.[ext]',
               limit: 10000,
               publicPath: 'static/imgs/',
-              outputPath: 'static/imgs/'
-            }
-          }
-        ]
+              outputPath: 'static/imgs/',
+            },
+          },
+        ],
       },
       {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
@@ -90,9 +97,9 @@ module.exports = {
           name: '[name]-[hash:5].min.[ext]',
           limit: 10000,
           publicPath: 'static/fonts/',
-          outputPath: 'static/fonts/'
-        }
-      }
-    ]
-  }
+          outputPath: 'static/fonts/',
+        },
+      },
+    ],
+  },
 }
