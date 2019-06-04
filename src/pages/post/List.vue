@@ -23,6 +23,7 @@
               :to="'/post?tags__id='+tag.id"
             >
               {{ tag.name }}</router-link> </span>
+          <span class="post-meta-item">访问量:{{ item.views_count }}</span>
         </div>
         <div class="post-desc">{{ item.desc }}</div>
       </div>

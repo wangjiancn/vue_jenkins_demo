@@ -33,7 +33,6 @@ export default {
       const {
         data: { objects, meta },
       } = await fetchCategorys()
-      console.log('TCL: loadItems -> objects, meta', objects, meta)
       this.items = objects
     },
   },

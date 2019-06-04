@@ -76,13 +76,14 @@ export default {
         body: this.$refs.md.d_render,
         ...this.meta,
       }
-      const data = await updateOrCreatePost(post, id)
+      const { data } = await updateOrCreatePost(post, id)
+      console.log('TCL: saveMD -> data', data)
       this.$notify({
         title: `${id ? '更新' : '创建成功'}成功`,
         type: 'success',
       })
       if (!id) {
-        this.$router.push(`/md/post/${data.id}`)
+        this.$router.push(`/md/${data.id}`)
       }
     },
     handleTagChange(e) {
