@@ -1,5 +1,4 @@
 @tailwind base;
-@import '~element-ui/lib/theme-chalk/index.css';
 
 @tailwind components;
 
