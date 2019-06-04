@@ -7,7 +7,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const config = merge.smart(common, {
   output: {
-    path: '/home/wangj/PycharmProjects/DjangoForBlog/blog/dist/',
+    path: process.env.VUE_BLOG || path.resolve(__dirname, '../dist'),
     filename: 'static/js/[name].[hash].js',
   },
   optimization: {
@@ -27,6 +27,11 @@ const config = merge.smart(common, {
           name: 'chunk-elementUI', // 单独将 elementUI 拆包
           priority: 20, // 权重要大于 libs 和 app 不然会被打包进 libs 或者 app
           test: /[\\/]node_modules[\\/]element-ui[\\/]/,
+        },
+        vue: {
+          name: 'chunk-vue', // 单独将 elementUI 拆包
+          priority: 20, // 权重要大于 libs 和 app 不然会被打包进 libs 或者 app
+          test: /[\\/]node_modules[\\/]vue.*[\\/]/,
         },
       },
     },
@@ -63,6 +68,23 @@ const config = merge.smart(common, {
           },
           'css-loader',
           'postcss-loader',
+        ],
+      },
+      {
+        test: /\.s(c|a)ss$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              // you can specify a publicPath here
+              // by default it uses publicPath in webpackOptions.output
+              publicPath: 'static/css',
+              hmr: process.env.NODE_ENV === 'development',
+            },
+          },
+          'css-loader',
+          'postcss-loader',
+          'sass-loader',
         ],
       },
     ],
