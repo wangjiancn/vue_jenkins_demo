@@ -1,6 +1,6 @@
 <template>
   <div class="nav">
-    <div class="w-3/5 float-left nav-left">
+    <div class="w-3/5  nav-left">
       <ul>
         <li>
           <router-link
@@ -10,7 +10,7 @@
         </li>
       </ul>
     </div>
-    <div class="w-2/5 float-left nav-right">
+    <div class="w-2/5  nav-right">
       <ul>
         <li class="search-bar">
           <el-input
@@ -18,47 +18,23 @@
             size="small"
             placeholder="请输入关键字"
             prefix-icon="el-icon-search"
+            @keyup.enter.native="handleSearch"
           ></el-input>
         </li>
         <li
           v-if="user"
           class="user"
         >
-          <el-dropdown
-            class="user-dropdown"
-            trigger="click"
+          <img
+            class="avatar"
+            src="@/accets/img/user.png"
           >
-            <img
-              class="avatar"
-              src="@/accets/img/user.png"
-              alt=""
-            >
-            <el-dropdown-menu
-              slot="dropdown"
-              class="user-dropdown"
-            >
-              <el-dropdown-item>
-                <router-link
-                  class="a-item"
-                  :to="'/i/'+ user.username"
-                >{{ user.nickname || user.username }}</router-link>
-              </el-dropdown-item>
-              <!-- <el-dropdown-item> <router-link
-                  class="a-item"
-                  to="/md"
-                >Markdown</router-link>
-              </el-dropdown-item>
-              <el-dropdown-item>
-                <router-link
-                  class="a-item"
-                  to="/ck"
-                >CKEditor</router-link>
-              </el-dropdown-item>
-              <el-dropdown-item @click="Logout">
-                <router-link>注销</router-link>
-              </el-dropdown-item> -->
-            </el-dropdown-menu>
-          </el-dropdown>
+          <div class="drop">
+            <router-link :to="'/i/'+ user.username">{{ user.nickname || user.username }}</router-link>
+            <router-link to="/md">Markdown</router-link>
+            <router-link to="/ck">CKEditor</router-link>
+            <a @click="Logout">注销</a>
+          </div>
         </li>
         <li v-else>
           <el-button
@@ -71,7 +47,6 @@
           ></Login>
         </li>
       </ul>
-
     </div>
   </div>
 </template>
@@ -79,12 +54,14 @@
 <script>
 import { logout } from '@/api/auth'
 import Login from '@/pages/access/Login.vue'
+import { constants } from 'crypto'
 export default {
   components: { Login },
   data() {
     return {
       searchValue: '',
       loginDialog: false,
+      panelShow: false,
     }
   },
   computed: {
@@ -93,11 +70,20 @@ export default {
     },
   },
   created() {},
+  mounted() {},
   methods: {
     async Logout() {
       const res = await logout({})
       this.$store.commit('setJWT', '')
       location.reload()
+    },
+    handleSearch() {
+      console.log('search')
+      if (!this.searchValue) return
+      this.$router.push({ path: '/', query: { search: this.searchValue } })
+    },
+    Print(e) {
+      console.log(e)
     },
   },
 }
@@ -105,41 +91,24 @@ export default {
 <style lang="scss" scoped>
 .nav {
   height: 54px;
-  display: block;
+  display: flex;
   margin: 0 auto;
   .nav-right {
     display: inline-flex;
-    flex-direction: column-reverse;
-    ul,
-    li {
-      display: inline-flex;
-      justify-content: flex-end;
-      align-items: center;
-      margin-right: 10px;
-    }
-    .search-bar {
-      display: inline-flex;
-    }
-    .user {
-      display: inline-flex;
-      .avatar {
-        height: 30px;
-        width: 30px;
-      }
-    }
+    justify-content: flex-end;
   }
   div {
     background-color: #f3f3f3;
     ul {
-      display: inline-block;
+      list-style: none;
+      display: inline-flex;
       line-height: 54px;
-      vertical-align: middle;
+      align-items: center;
       margin: 0;
       padding: 0;
-      overflow: hidden;
       li {
         a {
-          display: inline-block;
+          display: inline-flex;
           font-weight: bold;
           color: #666;
           text-align: center;
@@ -154,27 +123,40 @@ export default {
           }
         }
       }
+
+      .search-bar {
+        display: inline-flex;
+        margin-right: 1rem;
+      }
+      .user {
+        position: relative;
+        display: inline-flex;
+        margin-right: 1rem;
+        .avatar {
+          height: 30px;
+          width: 30px;
+        }
+        &:hover .drop {
+          display: inline-block;
+        }
+      }
     }
   }
-  .modal {
+  .drop {
+    line-height: 40px;
+    display: none;
     position: absolute;
-    width: 320px;
-    overflow: hidden;
     top: 100%;
-    z-index: 1000;
-    text-align: left;
-    background-color: #fff;
-    border-radius: 4px;
-  }
-  .user-dropdown {
-    display: inline-flex;
-    li {
-      a,
-      a:link {
-        text-decoration: none;
-        color: black;
+    right: 0rem;
+    a,
+    div {
+      width: 5rem;
+      text-align: center;
+      &:hover {
+        background-color: gray;
       }
     }
   }
 }
 </style>
+
