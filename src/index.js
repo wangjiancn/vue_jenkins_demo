@@ -7,6 +7,7 @@ import VueRouter from 'vue-router'
 import Vuex from 'vuex'
 import App from './App.vue'
 import routes from './routes.js'
+import { Anchor, BackTop } from 'ant-design-vue'
 import store from '@/store'
 import {
   Button,
@@ -36,6 +37,9 @@ const components = [
   Pagination,
 ]
 
+Vue.use(Anchor)
+Vue.use(BackTop)
+
 components.forEach(item => {
   Vue.component(item.name, item)
 }) //直接使用.vue时，会自动弹出
@@ -51,6 +55,7 @@ Vue.prototype.$message = Message
 Vue.use(Vuex)
 Vue.use(VueRouter)
 const router = new VueRouter({
+  mode: 'history',
   routes, // (缩写) 相当于 routes: routes
 })
 

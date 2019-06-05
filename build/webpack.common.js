@@ -69,6 +69,10 @@ module.exports = {
         ],
       },
       {
+        test: /\.less$/,
+        use: ['css-loader', 'less-loader'],
+      },
+      {
         test: /\.postcss$/,
         use: [
           'vue-style-loader',
@@ -84,7 +88,7 @@ module.exports = {
             options: {
               name: '[name]-[hash:5].min.[ext]',
               limit: 10000,
-              publicPath: 'static/imgs/',
+              publicPath: '/static/imgs/',
               outputPath: 'static/imgs/',
             },
           },
@@ -96,7 +100,7 @@ module.exports = {
         options: {
           name: '[name]-[hash:5].min.[ext]',
           limit: 10000,
-          publicPath: 'static/fonts/',
+          publicPath: '/static/fonts/',
           outputPath: 'static/fonts/',
         },
       },

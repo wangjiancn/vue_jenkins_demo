@@ -12,12 +12,22 @@
         "@babel/plugin-transform-runtime",
         "@babel/plugin-syntax-dynamic-import",
         [
+            "import",
+            {
+                "libraryName": "ant-design-vue",
+                "libraryDirectory": "lib",
+                "style": "css"
+            },
+            "ant"
+        ],
+        [
             "component",
             {
                 "libraryName": "element-ui",
-                "styleLibraryName": "theme-chalk"
-            }
-        ]
+                "styleLibraryName": "theme-chalk",
+            },
+            "el"
+        ],
     ],
     "env": {
         "development": {

@@ -9,6 +9,7 @@ const config = merge.smart(common, {
   output: {
     path: process.env.VUE_BLOG || path.resolve(__dirname, '../dist'),
     filename: 'static/js/[name].[hash].js',
+    publicPath: '/',
   },
   optimization: {
     minimizer: [
@@ -55,6 +56,22 @@ const config = merge.smart(common, {
   module: {
     rules: [
       {
+        test: /\.less$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              // you can specify a publicPath here
+              // by default it uses publicPath in webpackOptions.output
+              publicPath: '/static/css',
+              hmr: process.env.NODE_ENV === 'development',
+            },
+          },
+          'css-loader',
+          'less-loader',
+        ],
+      },
+      {
         test: /\.css$/,
         use: [
           {
@@ -62,11 +79,16 @@ const config = merge.smart(common, {
             options: {
               // you can specify a publicPath here
               // by default it uses publicPath in webpackOptions.output
-              publicPath: 'static/css',
+              publicPath: '/static/css',
               hmr: process.env.NODE_ENV === 'development',
             },
           },
-          'css-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+            },
+          },
           'postcss-loader',
         ],
       },
@@ -78,7 +100,7 @@ const config = merge.smart(common, {
             options: {
               // you can specify a publicPath here
               // by default it uses publicPath in webpackOptions.output
-              publicPath: 'static/css',
+              publicPath: '/static/css',
               hmr: process.env.NODE_ENV === 'development',
             },
           },

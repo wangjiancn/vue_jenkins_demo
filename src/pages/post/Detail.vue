@@ -4,6 +4,23 @@
       v-if="post"
       class="mx-4 md:mx-auto"
     >
+      <a-back-top />
+      <a-anchor class="toc-affix">
+        <a-anchor-link
+          v-for="item in anchors"
+          :key="item.href"
+          :href="item.href"
+          :title="item.title"
+        >
+          <a-anchor-link
+            v-for="son in item.children"
+            :key="son.href"
+            :href="son.href"
+            :title="son.title"
+          />
+        </a-anchor-link>
+      </a-anchor>
+
       <h1 class="post-title">{{ post.title }}</h1>
       <div class="meta-warpper">
         <span class="post-meta">作者:{{ post.author ? post.author.nickname || post.author.username : '' }}</span>
@@ -38,14 +55,15 @@
   </div>
 </template>
 <script>
-// import '@/styles/markdown.scss'
 import { fetchArticle } from '@/api/article.js'
 import { nextTick } from 'q'
+import { constants } from 'crypto'
 export default {
   data() {
     return {
       post: null,
       loading: false,
+      anchors: [],
     }
   },
   beforeRouteUpdate(to, from, next) {
@@ -56,11 +74,41 @@ export default {
     this.loadItem()
   },
   methods: {
+    parseAnchor(post) {
+      const text = post.body
+      let parser = new DOMParser()
+      const postDOM = parser.parseFromString(text, 'text/html')
+      const o = postDOM.getElementsByTagName('body')
+      const postCol = o[0].children
+      let anchors = []
+      for (const col of postCol) {
+        if (col.localName === 'h1') {
+          const anchor = {
+            title: col.innerText,
+            href: '#' + col.children[0].id,
+          }
+          anchors.push(anchor)
+        } else if (col.localName === 'h2' && anchors.length) {
+          const anchor = {
+            title: col.innerText,
+            href: '#' + col.children[0].id,
+          }
+          const lastIndex = anchors.length - 1
+          if (Array.isArray(anchors[lastIndex].children)) {
+            anchors[lastIndex].children.push(anchor)
+          } else {
+            anchors[lastIndex].children = [anchor]
+          }
+        }
+      }
+      this.anchors = anchors
+    },
     async loadItem() {
       this.loading = true
       const { data } = await fetchArticle(this.$route.params.id)
       this.post = data
       this.loading = false
+      this.parseAnchor(data)
     },
   },
 }
@@ -86,5 +134,12 @@ export default {
 .post-title {
   text-align: center;
   margin: 0;
+}
+.toc-affix {
+  width: 150px;
+  position: fixed;
+  top: 100px;
+  right: 10px;
+  bottom: 250px;
 }
 </style>
