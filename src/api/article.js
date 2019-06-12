@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function fetchArticles(query) {
   return request({
-    url: '/article',
+    url: '/article/',
     method: 'get',
     params: query,
   })
@@ -12,6 +12,13 @@ export function fetchArticle(id) {
   return request({
     url: `/article/${id}/`,
     method: 'get',
+  })
+}
+
+export function delArticle(id) {
+  return request({
+    url: `/article/${id}/`,
+    method: 'delete',
   })
 }
 
@@ -27,7 +34,7 @@ export function updateOrCreatePost(post, id = null) {
 export function fetchTags(query) {
   return request({
     method: 'get',
-    url: '/tag',
+    url: '/tag/',
     params: query,
   })
 }
