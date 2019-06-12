@@ -22,6 +22,11 @@ import {
   Loading,
   MessageBox,
   Message,
+  Table,
+  TableColumn,
+  Popover,
+  Tooltip,
+  Alert,
 } from 'element-ui'
 
 Vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000 }
@@ -35,6 +40,11 @@ const components = [
   Option,
   Switch,
   Pagination,
+  Table,
+  TableColumn,
+  Popover,
+  Tooltip,
+  Alert,
 ]
 
 Vue.use(Anchor)
@@ -70,7 +80,7 @@ Vue.directive('highlight', function(el) {
 
 Vue.prototype.$dayjs = dayjs
 
-new Vue({
+window._vm_ = new Vue({
   el: '#app',
   store,
   router,
