@@ -10,7 +10,7 @@
         </li>
       </ul>
     </div>
-    <div class="w-2/5  nav-right">
+    <div class="w-2/5  nav-right pr-5">
       <ul>
         <li class="search-bar">
           <el-input
@@ -73,9 +73,7 @@ export default {
   mounted() {},
   methods: {
     async Logout() {
-      const res = await logout({})
       this.$store.commit('setJWT', '')
-      location.reload()
     },
     handleSearch() {
       console.log('search')
@@ -131,7 +129,6 @@ export default {
       .user {
         position: relative;
         display: inline-flex;
-        margin-right: 1rem;
         .avatar {
           height: 30px;
           width: 30px;
@@ -143,14 +140,16 @@ export default {
     }
   }
   .drop {
+    padding-top: 0.5rem;
     line-height: 40px;
     display: none;
     position: absolute;
     top: 100%;
-    right: 0rem;
+    left: -3rem;
+    z-index: 3000;
     a,
     div {
-      width: 5rem;
+      width: 8rem;
       text-align: center;
       &:hover {
         background-color: gray;

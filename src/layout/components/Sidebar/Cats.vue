@@ -8,6 +8,7 @@
         v-for="item in items"
         :key="item.id"
         class="tag-item"
+        :class="[$route.query.tags__id === item.id ? 'active' : '']"
         :to="`/post?cat__id=${item.id}`"
       >
         {{ item.name }}
@@ -47,8 +48,9 @@ export default {
   border-radius: 0.2rem;
   width: 100%;
   .header {
-    padding: 5px;
-    background-color: #999;
+    padding: 0.5rem 0.8rem;
+    font-weight: bold;
+    background-color: #909399;
   }
   .body {
     padding: 5px;
@@ -79,6 +81,9 @@ export default {
   a:active {
     text-decoration: none;
     color: inherit;
+  }
+  .router-link-exact-active {
+    background-color: #909399;
   }
 }
 </style>

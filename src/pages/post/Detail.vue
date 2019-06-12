@@ -1,25 +1,9 @@
 <template>
-  <div>
+  <div class="relative">
     <div
       v-if="post"
-      class="mx-4 md:mx-auto"
+      class="mx-4 w-3/4"
     >
-      <a-back-top />
-      <a-anchor class="toc-affix">
-        <a-anchor-link
-          v-for="item in anchors"
-          :key="item.href"
-          :href="item.href"
-          :title="item.title"
-        >
-          <a-anchor-link
-            v-for="son in item.children"
-            :key="son.href"
-            :href="son.href"
-            :title="son.title"
-          />
-        </a-anchor-link>
-      </a-anchor>
 
       <h1 class="post-title">{{ post.title }}</h1>
       <div class="meta-warpper">
@@ -52,6 +36,26 @@
     <div v-else-if="!loading">
       <p>改文章不存在</p>
     </div>
+    <a-back-top />
+    <a-anchor
+      wrapper-class="toc-container"
+      :bounds="100"
+      class="toc-affix"
+    >
+      <a-anchor-link
+        v-for="item in anchors"
+        :key="item.href"
+        :href="item.href"
+        :title="item.title"
+      >
+        <a-anchor-link
+          v-for="son in item.children"
+          :key="son.href"
+          :href="son.href"
+          :title="son.title"
+        />
+      </a-anchor-link>
+    </a-anchor>
   </div>
 </template>
 <script>
@@ -82,13 +86,13 @@ export default {
       const postCol = o[0].children
       let anchors = []
       for (const col of postCol) {
-        if (col.localName === 'h1') {
+        if (col.localName === 'h2') {
           const anchor = {
             title: col.innerText,
             href: '#' + col.children[0].id,
           }
           anchors.push(anchor)
-        } else if (col.localName === 'h2' && anchors.length) {
+        } else if (col.localName === 'h3' && anchors.length) {
           const anchor = {
             title: col.innerText,
             href: '#' + col.children[0].id,
@@ -135,11 +139,22 @@ export default {
   text-align: center;
   margin: 0;
 }
-.toc-affix {
-  width: 150px;
+.toc-container {
+  right: 0;
+  top: 150px;
   position: fixed;
   top: 100px;
   right: 10px;
+  bottom: 250px;
+}
+.toc-affix {
+  width: 20%;
+  position: absolute;
+  right: 0;
+  top: 150px;
+  // position: fixed;
+  // top: 100px;
+  // right: 10px;
   bottom: 250px;
 }
 </style>

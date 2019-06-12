@@ -47,8 +47,9 @@ export default {
   border-radius: 0.2rem;
   width: 100%;
   .header {
-    padding: 5px;
-    background-color: #999;
+    padding: 0.5rem 0.8rem;
+    font-weight: bold;
+    background-color: #909399;
   }
   .body {
     padding: 5px;
@@ -64,7 +65,7 @@ export default {
       line-height: 1rem;
       padding: 0.2rem 0.6rem;
       border-radius: 0.8rem;
-      border: 1px solid #999;
+      border: 1px solid #909399;
     }
     .link {
       display: inline;
@@ -79,6 +80,9 @@ export default {
   a:active {
     text-decoration: none;
     color: inherit;
+  }
+  .router-link-exact-active {
+    background-color: #909399;
   }
 }
 </style>
