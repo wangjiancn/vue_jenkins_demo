@@ -15,9 +15,14 @@ module.exports = merge(common, {
   devServer: {
     hot: true,
     proxy: {
-      '/': 'http://127.0.0.1:8000',
+      '/django/**': {
+        target: 'http://127.0.0.1:8000/',
+        changeOrigin: true,
+        pathRewrite: { '^/django': '' },
+      },
     },
     // disableHostCheck: true,
+    historyApiFallback: true,
     host: '0.0.0.0',
   },
 })

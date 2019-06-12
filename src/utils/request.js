@@ -3,6 +3,7 @@ import store from '@/store'
 import { Message } from 'element-ui'
 
 const axiosInstance = Axios.create({
+  baseURL: process.env.NODE_ENV === 'production' ? '' : '/django',
   timeout: 60 * 1000,
 })
 
