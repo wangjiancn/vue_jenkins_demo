@@ -39,6 +39,18 @@ import { mavonEditor } from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 import { updateOrCreatePost, fetchArticle, fetchTags } from '@/api/article'
 
+const markdownIt = mavonEditor.getMarkdownIt()
+markdownIt.renderer.rules.heading_open = function(tokens, idx) {
+  const token = tokens[idx]
+  const level = token.markup.length + 1
+  const content =
+    tokens[idx + 1].content.replace(/\s/g, '_') ||
+    Math.random()
+      .toString(36)
+      .substr(2)
+  return `<h${level > 6 ? 6 : level}><a id='${content}'></a>`
+}
+
 import Meta from '@/pages/editor/Meta.vue'
 
 export default {
@@ -60,7 +72,6 @@ export default {
       const id = this.$route.params.id
       if (id) {
         const { data } = await fetchArticle(this.$route.params.id)
-        console.log('TCL: loadItems -> data', data)
         this.postData = { ...data }
         this.meta.tags = data.tags.map(i => i.id)
         this.meta.cat = data.cat_id
@@ -77,9 +88,8 @@ export default {
         ...this.meta,
       }
       const { data } = await updateOrCreatePost(post, id)
-      console.log('TCL: saveMD -> data', data)
       this.$notify({
-        title: `${id ? '更新' : '创建成功'}成功`,
+        title: `文章${id ? '更新' : '创建'}成功`,
         type: 'success',
       })
       if (!id) {
@@ -96,7 +106,7 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
+<style lang="scss" scoped>
 .post-title {
   margin: 10px 0;
 }
