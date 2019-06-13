@@ -7,6 +7,9 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
 module.exports = merge(common, {
   devtool: 'inline-cheap-source-map',
   plugins: [
+    new CleanWebpackPlugin({
+      cleanOnceBeforeBuildPatterns: ['**/*', '!.gitkeep'],
+    }), //清理dist目录,忽略.gitkeep
     new BundleAnalyzerPlugin({
       openAnalyzer: false,
     }),
@@ -15,10 +18,9 @@ module.exports = merge(common, {
   devServer: {
     hot: true,
     proxy: {
-      '/django/**': {
-        target: 'http://127.0.0.1:8000/',
+      '/api/**': {
+        target: 'http://127.0.0.1:8000',
         changeOrigin: true,
-        pathRewrite: { '^/django': '' },
       },
     },
     // disableHostCheck: true,

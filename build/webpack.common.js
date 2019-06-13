@@ -36,9 +36,6 @@ module.exports = {
     },
   },
   plugins: [
-    new CleanWebpackPlugin({
-      cleanOnceBeforeBuildPatterns: ['**/*', '!.gitkeep'],
-    }), //清理dist目录,忽略.gitkeep
     new HtmlWebpackPlugin({
       title: 'Blog', // 输出到dist/index.html的title
       template: 'src/index.html',
