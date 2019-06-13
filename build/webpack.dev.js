@@ -7,9 +7,9 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
 module.exports = merge(common, {
   devtool: 'inline-cheap-source-map',
   plugins: [
-    new CleanWebpackPlugin({
-      cleanOnceBeforeBuildPatterns: ['**/*', '!.gitkeep'],
-    }), //清理dist目录,忽略.gitkeep
+    // new CleanWebpackPlugin({
+    //   cleanOnceBeforeBuildPatterns: ['**/*', '!.gitkeep'],
+    // }), //清理dist目录,忽略.gitkeep
     new BundleAnalyzerPlugin({
       openAnalyzer: false,
     }),
