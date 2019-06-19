@@ -27,12 +27,13 @@ export function delArticle(id) {
 export function updateOrCreatePost(post, id = null) {
   return request({
     method: 'post',
-    url: `${RELATE_URL}/post/${id ? 'id' + '/' : ''}`,
+    url: `/article/${id ? id + '/' : ''}`,
     data: post,
   })
 }
 
-export function fetchTags(query) {
+export function fetchTags(query = {}) {
+  query.limit = 999
   return request({
     method: 'get',
     url: `${RELATE_URL}/tag/`,
