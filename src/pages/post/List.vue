@@ -1,44 +1,49 @@
 <template>
   <div class="post-container">
-    <div
-      v-for="item in items"
-      :key="item.id"
-      class="post"
-    >
-      <div class="post-body">
-        <h1 class="post-title">
-          <router-link :to="`/post/${item.id}`">{{ item.title }}</router-link>
-        </h1>
-        <div class="post-meta">
-          <span class="post-meta-item">作者:{{ item.author ? item.author.nickname || item.author.username : '' }}</span>
-          <span class="post-meta-item">最后更新:{{ $dayjs(item.last_modified,{locale:'zh-cn'}).fromNow() }}</span>
-          <span
-            v-if="item.cat"
-            class="post-meta-item"
-          >分类: <router-link :to="`/post?cat__id=${item.cat.id}`">{{ item.cat.name }}</router-link> </span>
-          <span class="post-meta-item">标签:
-            <router-link
-              v-for="tag in item.tags"
-              :key="tag.uuid"
-              :to="'/post?tags__id='+tag.id"
-            >
-              {{ tag.name }}</router-link> </span>
-          <span class="post-meta-item">访问量:{{ item.views_count }}</span>
+    <div v-if="items.length">
+      <div
+        v-for="item in items"
+        :key="item.id"
+        class="post"
+      >
+        <div class="post-body">
+          <h1 class="post-title">
+            <router-link :to="`/post/${item.id}`">{{ item.title }}</router-link>
+          </h1>
+          <div class="post-meta">
+            <span class="post-meta-item">作者:{{ item.author ? item.author.nickname || item.author.username : '' }}</span>
+            <span class="post-meta-item">最后更新:{{ $dayjs(item.last_modified,{locale:'zh-cn'}).fromNow() }}</span>
+            <span
+              v-if="item.cat"
+              class="post-meta-item"
+            >分类: <router-link :to="`/post?cat__id=${item.cat.id}`">{{ item.cat.name }}</router-link> </span>
+            <span class="post-meta-item">标签:
+              <router-link
+                v-for="tag in item.tags"
+                :key="tag.uuid"
+                :to="'/post?tags__id='+tag.id"
+              >
+                {{ tag.name }}</router-link> </span>
+            <span class="post-meta-item">访问量:{{ item.views_count }}</span>
+          </div>
+          <div class="post-desc">{{ item.desc }}</div>
         </div>
-        <div class="post-desc">{{ item.desc }}</div>
+      </div>
+      <div class="pagination">
+        <el-pagination
+          background
+          :current-page="currentPage"
+          :page-size="pageSize"
+          layout="prev, pager, next"
+          :total="total"
+          @prev-click="handlePageChange"
+          @current-change="handlePageChange"
+        >
+        </el-pagination>
       </div>
     </div>
-    <div class="pagination">
-      <el-pagination
-        background
-        :current-page="currentPage"
-        :page-size="pageSize"
-        layout="prev, pager, next"
-        :total="total"
-        @prev-click="handlePageChange"
-        @current-change="handlePageChange"
-      >
-      </el-pagination>
+    <div v-else>
+      <p class="text-center">没有相关文章</p>
     </div>
   </div>
 </template>
@@ -74,6 +79,8 @@ export default {
         ...this.$route.query,
         limit: this.pageSize,
         offset: (this.currentPage - 1) * this.pageSize,
+        defer: 'markdown,body',
+        order_by: '-created',
       }
       const {
         data: { objects, meta },
