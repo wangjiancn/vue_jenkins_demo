@@ -1,8 +1,10 @@
 import request from '@/utils/request'
 
+const RELATE_URL = '/cqi'
+
 export function fetchArticles(query) {
   return request({
-    url: '/article/',
+    url: `${RELATE_URL}/post/`,
     method: 'get',
     params: query,
   })
@@ -10,23 +12,22 @@ export function fetchArticles(query) {
 
 export function fetchArticle(id) {
   return request({
-    url: `/article/${id}/`,
+    url: `${RELATE_URL}/post/${id}/`,
     method: 'get',
   })
 }
 
 export function delArticle(id) {
   return request({
-    url: `/article/${id}/`,
+    url: `${RELATE_URL}/post/${id}/`,
     method: 'delete',
   })
 }
 
 export function updateOrCreatePost(post, id = null) {
-  const url = id ? `/article/${id}/` : '/article/'
   return request({
     method: 'post',
-    url: url,
+    url: `${RELATE_URL}/post/${id ? 'id' + '/' : ''}`,
     data: post,
   })
 }
@@ -34,7 +35,7 @@ export function updateOrCreatePost(post, id = null) {
 export function fetchTags(query) {
   return request({
     method: 'get',
-    url: '/tag/',
+    url: `${RELATE_URL}/tag/`,
     params: query,
   })
 }
@@ -42,7 +43,7 @@ export function fetchTags(query) {
 export function fetchCategorys(query) {
   return request({
     method: 'get',
-    url: '/cat/',
+    url: `${RELATE_URL}/category/`,
     params: query,
   })
 }

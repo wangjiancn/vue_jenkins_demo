@@ -19,6 +19,10 @@ const Center = () => ({
   component: import(/* webpackChunkName: "Center" */ '@/pages/center/Center.vue'),
 })
 
+const Admin = () => ({
+  component: import(/* webpackChunkName: "Admin" */ '@/pages/admin/Admin.vue'),
+})
+
 const routes = [
   {
     path: '/',
@@ -75,6 +79,10 @@ const routes = [
   {
     path: '/i',
     component: Center,
+  },
+  {
+    path: '/admin',
+    component: Admin,
   },
 ]
 
