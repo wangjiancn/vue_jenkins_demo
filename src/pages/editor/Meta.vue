@@ -93,7 +93,8 @@
 </template>
 
 <script>
-import { fetchTags, fetchCategorys } from '@/api/article.js'
+import { fetchTags, fetchCategorys } from '@/api/article'
+import { createRow } from '@/api/cqi'
 
 export default {
   model: {
@@ -123,7 +124,7 @@ export default {
     async loadCats() {
       const {
         data: { objects },
-      } = await fetchTags()
+      } = await fetchTags({ limit: 99 })
       this.tags = this.tagOptions = objects
     },
     async loadTags() {
@@ -133,25 +134,41 @@ export default {
       this.cats = this.catOptions = objects
     },
     handleChange(e, field) {
+      console.log('TCL: handleChange -> e,', e)
+      console.log('TCL: handleChange -> field', field)
       let meta = this.meta
+      if (field === 'tags') {
+        const index = e.findIndex(i => !Number.isInteger(i))
+        console.log('TCL: handleChange -> index', index)
+        if (index !== -1) {
+          createRow('tag', { name: e[index] }).then(res => {
+            this.tagOptions.push(res.data)
+            e[index] = res.data.id
+          })
+        }
+      }
       meta[field] = e
       this.$emit('input', meta)
-      console.log('TCL: handleChange -> meta', meta)
+      // console.log('TCL: handleChange -> meta', meta)
     },
     catQueryMethod(query) {
       const cats = this.cats.map(i => {
-        return { name: i.name.toLowerCase(), id: i.id }
+        return { name: i.name ? i.name.toLowerCase() : '', id: i.id }
       })
-      const filter_cats = cats.filter(i => i.name.includes(query.toLowerCase()))
-      console.log('TCL: catQueryMethod -> filter_cats', filter_cats)
+      const filter_cats = cats.filter(i =>
+        i.name.includes(query ? query.toLowerCase() : '')
+      )
+      // console.log('TCL: catQueryMethod -> filter_cats', filter_cats)
       this.catOptions = filter_cats
     },
     tagQueryMethod(query) {
       const tags = this.tags.map(i => {
-        return { name: i.name.toLowerCase(), id: i.id }
+        return { name: i.name ? i.name.toLowerCase() : '', id: i.id }
       })
-      const filter_tags = tags.filter(i => i.name.includes(query.toLowerCase()))
-      console.log('TCL: tagQueryMethod -> filter_tags', filter_tags)
+      const filter_tags = tags.filter(i =>
+        i.name.includes(query ? query.toLowerCase() : '')
+      )
+      // console.log('TCL: tagQueryMethod -> filter_tags', filter_tags)
       this.tagOptions = filter_tags
     },
   },
