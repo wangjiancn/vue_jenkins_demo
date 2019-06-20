@@ -52,7 +52,6 @@
 </template>
 
 <script>
-import { logout } from '@/api/auth'
 import Login from '@/pages/access/Login.vue'
 import { constants } from 'crypto'
 export default {
@@ -73,7 +72,7 @@ export default {
   mounted() {},
   methods: {
     async Logout() {
-      this.$store.commit('setJWT', '')
+      this.$store.commit('resetJWT')
     },
     handleSearch() {
       console.log('search')

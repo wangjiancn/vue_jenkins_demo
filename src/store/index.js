@@ -54,7 +54,7 @@ const store = new Vuex.Store({
       localStorage.setItem('jwt', token || '')
     },
     resetJWT(state) {
-      state.jwt = ''
+      state.jwt = null
       localStorage.setItem('jwt', '')
     },
     setError(state, payload) {
