@@ -1,3 +1,4 @@
+import VueRouter from 'vue-router'
 const CKEditor = () => ({
   component: import(/* webpackChunkName: "ckeditor" */ '@/pages/editor/CKEditor.vue'),
 })
@@ -47,22 +48,6 @@ const routes = [
         component: MavoEditor,
         children: [{ path: ':id', component: MavoEditor }],
         meta: { requreAuth: true },
-        beforeEnter: (to, from, next) => {
-          if (to.matched.some(record => record.meta.requreAuth)) {
-            if (store.getters.auth) {
-              next()
-            } else {
-              store.commit('setError', {
-                type: 'auth',
-                msg: '该页面需要登录才能访问,你还没有登录或者登录已过期',
-              })
-              store.commit('resetJWT')
-              next({ name: 'auth', query: { next: to.path } })
-            }
-          } else {
-            next()
-          }
-        },
       },
       {
         path: '/post/:id',
@@ -79,11 +64,35 @@ const routes = [
   {
     path: '/i',
     component: Center,
+    meta: { requreAuth: true },
   },
   {
     path: '/admin',
     component: Admin,
+    meta: { requreAuth: true },
   },
 ]
 
-export default routes
+const router = new VueRouter({
+  mode: 'history',
+  routes, // (缩写) 相当于 routes: routes
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requreAuth)) {
+    if (store.getters.auth) {
+      next()
+    } else {
+      store.commit('setError', {
+        type: 'auth',
+        msg: '该页面需要登录才能访问,你还没有登录或者登录已过期',
+      })
+      store.commit('resetJWT')
+      next({ name: 'auth', query: { next: to.path } })
+    }
+  } else {
+    next()
+  }
+})
+
+export default router

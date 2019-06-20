@@ -6,7 +6,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Vuex from 'vuex'
 import App from './App.vue'
-import routes from './routes.js'
+import router from './routes.js'
 import { Anchor, BackTop } from 'ant-design-vue'
 import store from '@/store'
 import {
@@ -64,10 +64,6 @@ Vue.prototype.$message = Message
 
 Vue.use(Vuex)
 Vue.use(VueRouter)
-const router = new VueRouter({
-  mode: 'history',
-  routes, // (缩写) 相当于 routes: routes
-})
 
 dayjs.extend(relativeTime)
 
