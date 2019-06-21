@@ -17,6 +17,16 @@
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button
+            v-if="scope.row.is_publish"
+            size="mini"
+            @click="cancelPublish(scope.$index, scope.row)"
+          >取消发布</el-button>
+          <el-button
+            v-else
+            size="mini"
+            @click="publish(scope.$index, scope.row)"
+          >发布</el-button>
+          <el-button
             size="mini"
             @click="handleEdit(scope.$index, scope.row)"
           >编辑</el-button>
@@ -63,7 +73,7 @@
   </div>
 </template>
 <script>
-import { fetchArticles, delArticle } from '@/api/article.js'
+import { fetchArticles, delArticle, updateOrCreatePost } from '@/api/article.js'
 export default {
   data() {
     return {
@@ -119,6 +129,26 @@ export default {
     handleDelete(index, row) {
       delArticle(row.id).then(res => {
         console.log(res)
+      })
+    },
+    publish(index, row) {
+      const data = {
+        is_publish: true,
+        private: false,
+      }
+      updateOrCreatePost(data, row.id).then(res => {
+        row.is_publish = true
+        row.private = false
+        this.$notify({ title: '发布成功', type: 'success', message: row.title })
+      })
+    },
+    cancelPublish(index, row) {
+      const data = {
+        is_publish: false,
+      }
+      updateOrCreatePost(data, row.id).then(res => {
+        row.is_publish = false
+        this.$notify({ title: '取消成功', type: 'success', message: row.title })
       })
     },
     showPopover(id) {

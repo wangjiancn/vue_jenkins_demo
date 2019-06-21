@@ -18,8 +18,8 @@
       <el-button
         size="small"
         type="primary"
-        @click="saveMD"
-      >立即创建</el-button>
+        @click="saveMD(true)"
+      >发布</el-button>
       <el-button
         size="small"
         type="primary"
@@ -79,13 +79,16 @@ export default {
         this.meta.kind = data.kind
       }
     },
-    async saveMD() {
+    async saveMD(publish = false) {
       const id = this.$route.params.id
       const post = {
         title: this.postData.title,
         markdown: this.postData.markdown,
         body: this.$refs.md.d_render,
         ...this.meta,
+      }
+      if (publish) {
+        post.is_publish = true
       }
       const { data } = await updateOrCreatePost(post, id)
       this.$notify({

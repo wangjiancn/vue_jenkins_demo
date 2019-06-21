@@ -81,6 +81,8 @@ export default {
         offset: (this.currentPage - 1) * this.pageSize,
         defer: 'markdown,body',
         order_by: '-created',
+        private: 0,
+        is_publish: 1,
       }
       const {
         data: { objects, meta },
