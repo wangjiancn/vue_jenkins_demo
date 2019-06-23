@@ -3,6 +3,7 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 import 'dayjs/locale/zh-cn'
 import '@/styles/global.css'
 import Vue from 'vue'
+import VueMeta from 'vue-meta'
 import VueRouter from 'vue-router'
 import Vuex from 'vuex'
 import App from './App.vue'
@@ -64,6 +65,7 @@ Vue.prototype.$message = Message
 
 Vue.use(Vuex)
 Vue.use(VueRouter)
+Vue.use(VueMeta)
 
 dayjs.extend(relativeTime)
 

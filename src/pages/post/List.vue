@@ -60,6 +60,23 @@ export default {
       currentPage: 1,
     }
   },
+  metaInfo() {
+    return {
+      title: '主页',
+      meta: [
+        {
+          vmid: 'description',
+          name: 'description',
+          content: '文章列表',
+        },
+        {
+          vmid: 'keywords',
+          name: 'keywords',
+          content: 'python,python入门,python转行',
+        },
+      ],
+    }
+  },
   computed: {
     pageCount: function() {
       return Math.ceil(this.total / this.pageSize)

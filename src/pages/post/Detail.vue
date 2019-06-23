@@ -70,6 +70,27 @@ export default {
       anchors: [],
     }
   },
+  metaInfo() {
+    const description = this.post ? this.post.desc : '加载中'
+    const tags = this.post
+      ? this.post.tags.map(i => i.name).join(',')
+      : undefined
+    return {
+      title: this.post ? this.post.title : '加载中',
+      meta: [
+        {
+          vmid: 'description',
+          name: 'description',
+          content: description,
+        },
+        {
+          vmid: 'keywords',
+          name: 'keywords',
+          content: tags,
+        },
+      ],
+    }
+  },
   beforeRouteUpdate(to, from, next) {
     next()
     this.loadItem()
