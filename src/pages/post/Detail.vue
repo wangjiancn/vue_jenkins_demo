@@ -28,9 +28,9 @@
         </span>
       </div>
       <div
+        v-highlight
         class="markdown-body"
         v-html="post.body"
-        v-highlight
       ></div>
     </div>
     <div v-else-if="!loading">

@@ -148,7 +148,7 @@ export default {
     display: inline-block;
     margin: 0;
     font-size: 0.9rem;
-    white-space: wrap;
+    white-space: pre-wrap;
   }
   a,
   a:hover,
