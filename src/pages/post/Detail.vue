@@ -43,8 +43,8 @@
       class="toc-affix"
     >
       <a-anchor-link
-        v-for="item in anchors"
-        :key="item.href"
+        v-for="(item,index) in anchors"
+        :key="item + index"
         :href="item.href"
         :title="item.title"
       >
