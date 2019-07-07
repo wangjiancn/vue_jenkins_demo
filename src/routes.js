@@ -1,27 +1,27 @@
 import VueRouter from 'vue-router'
 const CKEditor = () => ({
-  component: import(/* webpackChunkName: "ckeditor" */ '@/pages/editor/CKEditor.vue'),
+  component: import(/* webpackChunkName: "ckeditor" */ '@/views/editor/CKEditor.vue'),
 })
 
 const MavoEditor = () => ({
-  component: import(/* webpackChunkName: "mavoeditor" */ '@/pages/editor/MavoEditor.vue'),
+  component: import(/* webpackChunkName: "mavoeditor" */ '@/views/editor/MavoEditor.vue'),
 })
 
 import Tag from '@/layout/components/Sidebar/Tags.vue'
 import Cat from '@/layout/components/Sidebar/Cats.vue'
 
-import List from '@/pages/post/List.vue'
-import Detail from '@/pages/post/Detail.vue'
+import List from '@/views/post/List.vue'
+import Detail from '@/views/post/Detail.vue'
 import Personal from '@/layout/Personal.vue'
 import Main from '@/layout/Main.vue'
 import store from '@/store/index.js'
-import Access from '@/pages/access/Access.vue'
+import Access from '@/views/access/Access.vue'
 const Center = () => ({
-  component: import(/* webpackChunkName: "Center" */ '@/pages/center/Center.vue'),
+  component: import(/* webpackChunkName: "Center" */ '@/views/center/Center.vue'),
 })
 
 const Admin = () => ({
-  component: import(/* webpackChunkName: "Admin" */ '@/pages/admin/Admin.vue'),
+  component: import(/* webpackChunkName: "Admin" */ '@/views/admin/Admin.vue'),
 })
 
 const routes = [
