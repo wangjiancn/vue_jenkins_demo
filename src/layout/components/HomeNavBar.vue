@@ -1,58 +1,60 @@
 <template>
   <div class="nav">
-    <div class="w-3/5  nav-left">
-      <ul>
-        <li>
-          <router-link
-            :class="['/','/post'].includes($route.path) ? 'active':''"
-            to="/"
-          >首页</router-link>
-        </li>
-      </ul>
-    </div>
-    <div class="w-2/5  nav-right pr-5">
-      <ul>
-        <li class="search-bar">
-          <el-input
-            v-model="searchValue"
-            size="small"
-            placeholder="请输入关键字"
-            prefix-icon="el-icon-search"
-            @keyup.enter.native="handleSearch"
-          ></el-input>
-        </li>
-        <li
-          v-if="user"
-          class="user"
-        >
-          <img
-            class="avatar"
-            src="@/accets/img/user.png"
+    <div class="w-full md:w-3/4  inline-flex">
+      <div class="w-1/3 md:w-3/5  nav-left">
+        <ul>
+          <li>
+            <router-link
+              :class="['/','/post'].includes($route.path) ? 'active':''"
+              to="/"
+            >首页</router-link>
+          </li>
+        </ul>
+      </div>
+      <div class="w-2/3 md:w-2/5 nav-right">
+        <ul>
+          <li class="search-bar">
+            <el-input
+              v-model="searchValue"
+              size="small"
+              placeholder="请输入关键字"
+              prefix-icon="el-icon-search"
+              @keyup.enter.native="handleSearch"
+            ></el-input>
+          </li>
+          <li
+            v-if="user"
+            class="user"
           >
-          <div class="drop">
-            <router-link :to="'/i/'+ user.username">{{ user.nickname || user.username }}</router-link>
-            <router-link to="/md">Markdown</router-link>
-            <router-link to="/ck">CKEditor</router-link>
-            <a @click="Logout">注销</a>
-          </div>
-        </li>
-        <li v-else>
-          <el-button
-            size="small"
-            @click="loginDialog=true"
-          >登录/注册</el-button>
-          <Login
-            v-if="loginDialog"
-            @close="loginDialog=false"
-          ></Login>
-        </li>
-      </ul>
+            <img
+              class="avatar"
+              src="@/accets/img/user.png"
+            >
+            <div class="drop">
+              <router-link :to="'/i/'+ user.username">{{ user.nickname || user.username }}</router-link>
+              <router-link to="/md">Markdown</router-link>
+              <router-link to="/ck">CKEditor</router-link>
+              <a @click="Logout">注销</a>
+            </div>
+          </li>
+          <li v-else>
+            <el-button
+              size="small"
+              @click="loginDialog=true"
+            >登录/注册</el-button>
+            <Login
+              v-if="loginDialog"
+              @close="loginDialog=false"
+            ></Login>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import Login from '@/pages/access/Login.vue'
+import Login from '@/views/access/Login.vue'
 import { constants } from 'crypto'
 export default {
   components: { Login },
@@ -88,14 +90,19 @@ export default {
 <style lang="scss" scoped>
 .nav {
   height: 54px;
-  display: flex;
+  display: block;
   margin: 0 auto;
+  background-color: #f3f3f3;
+  text-align: center;
+  .nav-left {
+    display: inline-flex;
+    justify-content: flex-start;
+  }
   .nav-right {
     display: inline-flex;
     justify-content: flex-end;
   }
   div {
-    background-color: #f3f3f3;
     ul {
       list-style: none;
       display: inline-flex;

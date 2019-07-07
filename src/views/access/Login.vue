@@ -125,7 +125,8 @@ export default {
 }
 .dialog_container {
   background: #fff;
-  width: 500px;
+  width: 90%;
+  max-width: 500px;
   height: auto;
   position: absolute;
   border-radius: 2px;
@@ -134,7 +135,7 @@ export default {
   z-index: 20001;
 }
 .dialog_body {
-  padding: 20px;
+  padding: 10px;
 }
 .dialog_header {
   padding: 15px;

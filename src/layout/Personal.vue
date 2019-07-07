@@ -1,7 +1,7 @@
 <template>
   <div id="app">
+    <nav-bar></nav-bar>
     <div class="md:w-3/4 sm:w-full sm:mx-4 md:mx-auto my-0 ">
-      <nav-bar></nav-bar>
       <div>
         <router-view></router-view>
       </div>

@@ -1,24 +1,23 @@
 <template>
   <div id="app">
-    <div class="md:w-3/4 sm:w-full sm:mx-4 md:mx-auto my-0 ">
-      <div class="head-container">
-        <nav-bar></nav-bar>
+    <div class="head-container">
+      <nav-bar></nav-bar>
+    </div>
+    <div class="flex md:w-3/4 sm:w-full sm:mx-4 md:mx-auto my-0 mt-8">
+      <div class="hidden md:block">
+        <keep-alive>
+          <router-view name="cat"></router-view>
+        </keep-alive>
       </div>
-      <div class="mt-8 ">
-        <div class="post-list mx-auto my-0 float-left md:w-3/5 sm:w-full">
-          <router-view></router-view>
-        </div>
-        <div class="side-nav w-2/6 float-right sm:hidden md:block">
-          <keep-alive>
-            <router-view name="tag"></router-view>
-          </keep-alive>
-          <keep-alive>
-            <router-view name="cat"></router-view>
-          </keep-alive>
-        </div>
+      <div class="w-full mx-4 my-0 flex-grow-1">
+        <router-view></router-view>
+      </div>
+      <div class="w-6/12 max-w-md hidden md:block">
+        <keep-alive>
+          <router-view name="tag"></router-view>
+        </keep-alive>
       </div>
     </div>
-
   </div>
 </template>
 

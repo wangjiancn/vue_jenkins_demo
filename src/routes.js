@@ -16,6 +16,8 @@ import Personal from '@/layout/Personal.vue'
 import Main from '@/layout/Main.vue'
 import store from '@/store/index.js'
 import Access from '@/views/access/Access.vue'
+import VerticalCats from '@/layout/components/Sidebar/VerticalCats.vue'
+
 const Center = () => ({
   component: import(/* webpackChunkName: "Center" */ '@/views/center/Center.vue'),
 })
@@ -31,11 +33,11 @@ const routes = [
     children: [
       {
         path: '',
-        components: { default: List, tag: Tag, cat: Cat },
+        components: { default: List, tag: Tag, cat: VerticalCats },
       },
       {
         path: '/post',
-        components: { default: List, tag: Tag, cat: Cat },
+        components: { default: List, tag: Tag, cat: VerticalCats },
       },
     ],
   },
@@ -51,7 +53,7 @@ const routes = [
       },
       {
         path: '/post/:id',
-        components: { default: Detail, tag: Tag, cat: Cat },
+        components: { default: Detail, tag: Tag, cat: VerticalCats },
       },
       { path: '/ck', component: CKEditor },
       {
