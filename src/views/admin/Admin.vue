@@ -29,9 +29,9 @@
 
 <script>
 import { Tabs, TabPane } from 'element-ui'
-import Category from '@/pages/admin/tabs/Category.vue'
-import Post from '@/pages/admin/tabs/Post.vue'
-import Tag from '@/pages/admin/tabs/Tag.vue'
+import Category from '@/views/admin/tabs/Category.vue'
+import Post from '@/views/admin/tabs/Post.vue'
+import Tag from '@/views/admin/tabs/Tag.vue'
 
 export default {
   components: { Tabs, TabPane, Category, Post, Tag },

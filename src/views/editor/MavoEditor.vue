@@ -51,7 +51,7 @@ markdownIt.renderer.rules.heading_open = function(tokens, idx) {
   return `<h${level > 6 ? 6 : level}><a id='${content}'></a>`
 }
 
-import Meta from '@/pages/editor/Meta.vue'
+import Meta from '@/views/editor/Meta.vue'
 
 export default {
   components: { mavonEditor, Meta },

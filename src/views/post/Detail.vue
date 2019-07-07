@@ -2,7 +2,7 @@
   <div class="relative">
     <div
       v-if="post"
-      class="mx-4 w-3/4"
+      class="w-full mx-4 md:w-3/4"
     >
 
       <h1 class="post-title">{{ post.title }}</h1>
@@ -40,7 +40,7 @@
     <a-anchor
       wrapper-class="toc-container"
       :bounds="100"
-      class="toc-affix"
+      class="hidden md:block toc-affix"
     >
       <a-anchor-link
         v-for="(item,index) in anchors"
