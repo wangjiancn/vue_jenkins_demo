@@ -5,27 +5,57 @@
       class="w-full mx-4 md:w-3/4"
     >
 
-      <h1 class="post-title">{{ post.title }}</h1>
+      <h1 class="post-title text-lg md:text-3xl">{{ post.title }}</h1>
       <div class="meta-warpper">
-        <span class="post-meta">作者:{{ post.author ? post.author.nickname || post.author.username : '' }}</span>
-        <span class="post-meta">最后更新:{{ $dayjs(post.last_modified,{locale:'zh-cn'}).fromNow() }}</span>
-        <span
-          v-if="post.cat"
-          class="post-meta"
-        >分类:{{ post.cat.name }}</span>
-        <span class="post-meta">标签:
-          <router-link
-            v-for="tag in post.tags"
-            :key="tag.uuid"
-            :to="'/post?tags__id='+tag.id"
+
+        <div class="post-meta">
+          <span class="post-meta-item">
+            <img
+              alt="访问量"
+              class="post-meta-img"
+              src="@/accets/img/author.png"
+            >
+            {{ post.author ? post.author.nickname || post.author.username : '' }}</span>
+          <span class="post-meta-item">
+            <img
+              alt="访问量"
+              class="post-meta-img"
+              src="@/accets/img/update.png"
+            >
+            {{ $dayjs(post.last_modified,{locale:'zh-cn'}).fromNow() }}</span>
+          <span
+            v-if="post.cat"
+            class="post-meta-item"
+          >分类: <router-link :to="`/post?cat__id=${post.cat.id}`">{{ post.cat.name }}</router-link> </span>
+          <span class="post-meta-item">
+            <router-link
+              v-for="tag in post.tags"
+              :key="tag.uuid"
+              class="tag-item"
+              :to="'/post?tags__id='+tag.id"
+              @click.stop="log()"
+            >
+              <img
+                alt="访问量"
+                class="post-meta-img"
+                src="@/accets/img/tag.png"
+              >
+              {{ tag.name }}</router-link>
+          </span>
+          <span class="post-meta-item">
+            <img
+              alt="访问量"
+              class="post-meta-img"
+              src="@/accets/img/eye.png"
+            > {{ post.views_count }}</span>
+          <span
+            v-if="$store.getters.user.username === post.author.username"
+            class="post-meta-item"
           >
-            {{ tag.name }}</router-link> </span>
-        <span
-          v-if="$store.getters.user.username === post.author.username"
-          class="post-meta"
-        >
-          <router-link :to="'/md/'+ post.id">编辑本文</router-link>
-        </span>
+            <router-link :to="'/md/'+ post.id">编辑本文</router-link>
+          </span>
+        </div>
+
       </div>
       <div
         v-highlight
@@ -152,13 +182,27 @@ export default {
   }
 }
 .post-meta {
-  font-size: 12px;
+  font-size: 0.7rem;
   color: #888888;
-  display: inline;
+  line-height: 1.2rem;
+  &-item {
+    font-size: 0.7rem;
+    color: #888888;
+    display: inline-block;
+    padding-right: 5px;
+    .tag-item {
+      padding-right: 3px;
+    }
+  }
+  &-img {
+    height: 0.8rem;
+    width: auto;
+  }
 }
 .post-title {
   text-align: center;
   margin: 0;
+  white-space: nowrap;
 }
 .toc-container {
   right: 0;

@@ -11,20 +11,45 @@
             <router-link :to="`/post/${item.id}`">{{ item.title }}</router-link>
           </h1>
           <div class="post-meta">
-            <span class="post-meta-item">作者:{{ item.author ? item.author.nickname || item.author.username : '' }}</span>
-            <span class="post-meta-item">最后更新:{{ $dayjs(item.last_modified,{locale:'zh-cn'}).fromNow() }}</span>
+            <span class="post-meta-item">
+              <img
+                alt="访问量"
+                class="post-meta-img"
+                src="@/accets/img/author.png"
+              >
+              {{ item.author ? item.author.nickname || item.author.username : '' }}</span>
+            <span class="post-meta-item">
+              <img
+                alt="访问量"
+                class="post-meta-img"
+                src="@/accets/img/update.png"
+              >
+              {{ $dayjs(item.last_modified,{locale:'zh-cn'}).fromNow() }}</span>
             <span
               v-if="item.cat"
               class="post-meta-item"
             >分类: <router-link :to="`/post?cat__id=${item.cat.id}`">{{ item.cat.name }}</router-link> </span>
-            <span class="post-meta-item">标签:
+            <span class="post-meta-item">
               <router-link
                 v-for="tag in item.tags"
                 :key="tag.uuid"
+                class="tag-item"
                 :to="'/post?tags__id='+tag.id"
+                @click.stop="log()"
               >
-                {{ tag.name }}</router-link> </span>
-            <span class="post-meta-item">访问量:{{ item.views_count }}</span>
+                <img
+                  alt="访问量"
+                  class="post-meta-img"
+                  src="@/accets/img/tag.png"
+                >
+                {{ tag.name }}</router-link>
+            </span>
+            <span class="post-meta-item">
+              <img
+                alt="访问量"
+                class="post-meta-img"
+                src="@/accets/img/eye.png"
+              > {{ item.views_count }}</span>
           </div>
           <div class="post-desc">{{ item.desc }}</div>
         </div>
@@ -84,6 +109,7 @@ export default {
   },
   watch: {
     $route() {
+      this.currentPage = 1
       this.loadItems()
     },
   },
@@ -117,15 +143,15 @@ export default {
 
 <style lang="scss" scoped>
 .post-container {
-  padding-right: 40px;
+  width: 100%;
 }
 .post {
   margin-bottom: 0.6rem;
   border-bottom: 1px solid #999999;
   width: 100%;
-  padding: 10px;
+  padding: 3px;
   .post-body {
-    margin: 5px;
+    margin: 3px;
   }
   .post-title {
     overflow: hidden;
@@ -133,6 +159,7 @@ export default {
     font-size: 1.1rem;
     margin: 0 auto;
     text-align: left;
+    width: 100%;
   }
   .post-meta {
     font-size: 0.7rem;
@@ -142,6 +169,14 @@ export default {
       font-size: 0.7rem;
       color: #888888;
       display: inline-block;
+      padding-right: 5px;
+      .tag-item {
+        padding-right: 3px;
+      }
+    }
+    &-img {
+      height: 0.8rem;
+      width: auto;
     }
   }
   .post-desc {
@@ -149,6 +184,7 @@ export default {
     margin: 0;
     font-size: 0.9rem;
     white-space: pre-wrap;
+    width: 100%;
   }
   a,
   a:hover,
