@@ -4,9 +4,6 @@
 
 @tailwind utilities;
 
-html {
-  min-width: 640px;
-}
 body {
   margin: 0;
 }
