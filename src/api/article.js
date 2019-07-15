@@ -1,10 +1,8 @@
 import request from '@/utils/request'
 
-const RELATE_URL = '/cqi'
-
 export function fetchArticles(query) {
   return request({
-    url: `${RELATE_URL}/post/`,
+    url: '/article/',
     method: 'get',
     params: query,
   })
@@ -12,14 +10,14 @@ export function fetchArticles(query) {
 
 export function fetchArticle(id) {
   return request({
-    url: `${RELATE_URL}/post/${id}/`,
+    url: `/article/${id}/`,
     method: 'get',
   })
 }
 
 export function delArticle(id) {
   return request({
-    url: `${RELATE_URL}/post/${id}/`,
+    url: `/article/${id}/`,
     method: 'delete',
   })
 }
@@ -36,7 +34,7 @@ export function fetchTags(query = {}) {
   query.limit = 999
   return request({
     method: 'get',
-    url: `${RELATE_URL}/tag/`,
+    url: '/tag/',
     params: query,
   })
 }
@@ -44,7 +42,7 @@ export function fetchTags(query = {}) {
 export function fetchCategorys(query) {
   return request({
     method: 'get',
-    url: `${RELATE_URL}/category/`,
+    url: '/cat/',
     params: query,
   })
 }
