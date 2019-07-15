@@ -64,7 +64,7 @@ const routes = [
     ],
   },
   {
-    path: '/i',
+    path: '/i/:username',
     component: Center,
     meta: { requreAuth: true },
   },
