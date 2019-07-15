@@ -11,3 +11,15 @@ body {
 div[type='button'] {
   -webkit-appearance: none;
 }
+
+.footer {
+  margin-top: 100px;
+  margin-bottom: 30px;
+  color: #718096;
+}
+.footer a:hover,
+a:visited,
+a:link,
+a {
+  color: #718096;
+}
