@@ -47,7 +47,7 @@
       </el-select>
     </div>
     <div class="meta-item">
-      文章描述:
+      <span> 文章描述: </span>
       <el-input
         :value="meta.desc"
         style="width:500px"
@@ -79,12 +79,11 @@
       </el-select>
     </div>
     <div class="meta-item">
-      私密文章:
+      <span>私密文章: </span>
       <el-switch
         :value="meta.private"
         active-color="#13ce66"
         inactive-color="#ff4949"
-        active-text="已设置为私有文章"
         @change="handleChange($event,'private')"
       >
       </el-switch>
@@ -175,11 +174,14 @@ export default {
 }
 </script>
 
-<style>
+<style socped>
 .meta-container {
   padding: 10px 10px 10px 0;
 }
 .meta-item {
   margin-bottom: 10px;
+}
+.meta-item > span {
+  margin-right: 10px;
 }
 </style>

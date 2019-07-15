@@ -4,6 +4,7 @@
       :data="posts"
       border
       size="medium"
+      @sort-change="handleSortChange"
     >
       <el-table-column
         v-for="col in columns"
@@ -11,10 +12,14 @@
         :prop="col.id"
         :label="col.label"
         :width="col.width"
+        sortable="custom"
       >
 
       </el-table-column>
-      <el-table-column label="操作">
+      <el-table-column
+        label="操作"
+        width="300"
+      >
         <template slot-scope="scope">
           <el-button
             v-if="scope.row.is_publish"
@@ -80,12 +85,14 @@ export default {
       pageSize: 10,
       total: 0,
       currentPage: 1,
+      order_by: '-last_modified',
       visible: false,
       posts: [],
       columns: [
         { id: 'title', label: '标题' },
         { id: 'author', label: '作者', width: 100 },
-        { id: 'created', label: '创建时间', width: 150 },
+        { id: 'created', label: '创建时间', width: 160 },
+        { id: 'last_modified', label: '最后修改', width: 160 },
         { id: 'kind', label: '类型', width: 100 },
         { id: 'tags', label: '标签', width: 200 },
         { id: 'cat', label: '分类', width: 100 },
@@ -97,10 +104,22 @@ export default {
     this.loadItems()
   },
   methods: {
+    handleSortChange(e) {
+      console.log('TCL: handleSortChange -> e', e.prop)
+      if (e.prop) {
+        this.order_by = `${e.order === 'descending' ? '-' : ''}${e.prop}`
+      } else {
+        this.order_by = '-last_modified'
+      }
+      this.currentPage = 1
+      this.loadItems()
+    },
     async loadItems() {
       const query = {
         limit: this.pageSize,
         offset: (this.currentPage - 1) * this.pageSize,
+        order_by: this.order_by,
+        defer: 'body,markdown',
       }
       const {
         data: { meta, objects },
@@ -111,6 +130,9 @@ export default {
     handleResponse(objects) {
       const posts = objects.map(item => {
         item.created = this.$dayjs(item.created).format('YYYY/MM/DD HH:mm:ss')
+        item.last_modified = this.$dayjs(item.last_modified).format(
+          'YYYY/MM/DD HH:mm:ss'
+        )
         item.author = item.author.nickname || item.author.username
         item.cat = item.cat ? item.cat.name : ''
         item.tags = item.tags.map(item => item.name).join(',')
@@ -124,7 +146,8 @@ export default {
       this.loadItems()
     },
     handleEdit(index, row) {
-      this.$router.push('/md/' + row.id)
+      const url = '/md/' + row.id
+      window.open(url, '_blank')
     },
     handleDelete(index, row) {
       delArticle(row.id).then(res => {

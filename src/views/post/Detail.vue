@@ -2,7 +2,7 @@
   <div class="relative">
     <div
       v-if="post"
-      class="w-full mx-4 md:w-3/4"
+      class="w-full px-2 md:w-3/4"
     >
 
       <h1 class="post-title text-lg md:text-3xl">{{ post.title }}</h1>
