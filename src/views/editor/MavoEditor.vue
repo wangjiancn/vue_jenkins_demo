@@ -10,25 +10,27 @@
       <mavonEditor
         ref="md"
         v-model="postData.markdown"
+        :tab-size="2"
+        @imgAdd="imgAdd"
         @save="saveMD"
       ></mavonEditor>
     </div>
     <div class="button-wrapper">
       <Meta v-model="meta" />
       <el-button
-        size="small"
+        size="mini"
         type="primary"
         @click="saveMD(true)"
       >发布</el-button>
       <el-button
-        size="small"
+        size="mini"
         type="primary"
-        @click="saveMD"
+        @click="saveMD(false)"
       >存为草稿</el-button>
       <el-button
-        size="small"
+        size="mini"
         type="primary"
-        @click="saveMD"
+        @click="goBack"
       >返回</el-button>
     </div>
   </div>
@@ -37,7 +39,11 @@
 <script>
 import { mavonEditor } from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
+
+import Meta from '@/views/editor/Meta.vue'
 import { updateOrCreatePost, fetchArticle, fetchTags } from '@/api/article'
+import { uploadimage } from '@/api/upload'
+import { constants } from 'crypto'
 
 const markdownIt = mavonEditor.getMarkdownIt()
 markdownIt.renderer.rules.heading_open = function(tokens, idx) {
@@ -50,8 +56,6 @@ markdownIt.renderer.rules.heading_open = function(tokens, idx) {
       .substr(2)
   return `<h${level > 6 ? 6 : level}><a id='${content}'></a>`
 }
-
-import Meta from '@/views/editor/Meta.vue'
 
 export default {
   components: { mavonEditor, Meta },
@@ -80,16 +84,15 @@ export default {
       }
     },
     async saveMD(publish = false) {
+      console.log('TCL: saveMD -> publish', publish)
       const id = this.$route.params.id
-      const post = {
+      let post = {
         title: this.postData.title,
         markdown: this.postData.markdown,
         body: this.$refs.md.d_render,
         ...this.meta,
       }
-      if (publish) {
-        post.is_publish = true
-      }
+      post.is_publish = publish
       const { data } = await updateOrCreatePost(post, id)
       this.$notify({
         title: `文章${id ? '更新' : '创建'}成功`,
@@ -104,6 +107,19 @@ export default {
     },
     handleCatChange(e) {
       this.cat = e
+    },
+    async imgAdd(pos, $file) {
+      uploadimage($file).then(r => {
+        const url = r.data
+        this.$refs.md.$img2Url(pos, url)
+      })
+    },
+    goBack() {
+      if (window.history.length > 1) {
+        this.$router.back()
+      } else {
+        this.$router.push('/post/' + this.$route.params.id)
+      }
     },
   },
 }
