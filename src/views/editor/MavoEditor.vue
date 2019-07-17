@@ -103,10 +103,10 @@ export default {
       }
     },
     publishArticle() {
-      this.saveMD((publish = true))
+      this.saveMD(true)
     },
     saveDraft() {
-      this.saveMD((publish = false))
+      this.saveMD(false)
     },
     async saveMD(publish = false) {
       const id = this.$route.params.id
