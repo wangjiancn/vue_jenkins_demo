@@ -8,7 +8,7 @@
         v-for="item in items"
         :key="item.id"
         class="tag-item"
-        :to="`/post?tags__id=${item.id}`"
+        :to="{name:'tag',params:{name:item.name}}"
       >
         {{ item.name }}
       </router-link>

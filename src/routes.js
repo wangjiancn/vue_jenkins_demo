@@ -33,10 +33,21 @@ const routes = [
     children: [
       {
         path: '',
+        name: 'home',
         components: { default: List, tag: Tag, cat: VerticalCats },
       },
       {
         path: '/post',
+        components: { default: List, tag: Tag, cat: VerticalCats },
+      },
+      {
+        path: '/cat/:name',
+        name: 'cat',
+        components: { default: List, tag: Tag, cat: VerticalCats },
+      },
+      {
+        path: '/tag/:name',
+        name: 'tag',
         components: { default: List, tag: Tag, cat: VerticalCats },
       },
     ],

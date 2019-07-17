@@ -8,7 +8,7 @@
       v-for="item in items"
       :key="item.id"
       class="cat-item"
-      :to="`/post?cat__id=${item.id}`"
+      :to="{name:'cat',params:{name:item.name}}"
     >
       {{ item.name }}
     </router-link>

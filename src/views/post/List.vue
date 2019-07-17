@@ -83,11 +83,12 @@ export default {
       total: 0,
       pageSize: 10,
       currentPage: 1,
+      title: '',
     }
   },
   metaInfo() {
     return {
-      title: '主页',
+      title: this.title || '主页',
       meta: [
         {
           vmid: 'description',
@@ -118,7 +119,8 @@ export default {
   },
   methods: {
     async loadItems() {
-      const query = {
+      this.title = ''
+      let query = {
         ...this.$route.query,
         limit: this.pageSize,
         offset: (this.currentPage - 1) * this.pageSize,
@@ -126,6 +128,17 @@ export default {
         order_by: '-created',
         private: 0,
         is_publish: 1,
+      }
+      const paramName = this.$route.params.name
+      const routeName = this.$route.name
+      if (paramName && routeName) {
+        if (routeName === 'tag') {
+          query.tags__name = paramName
+          this.title = paramName + ' - ' + '标签'
+        } else if (routeName === 'cat') {
+          query.cat__name = paramName
+          this.title = paramName
+        }
       }
       const {
         data: { objects, meta },
