@@ -28,14 +28,13 @@
             <span
               v-if="item.cat"
               class="post-meta-item"
-            >分类: <router-link :to="`/post?cat__id=${item.cat.id}`">{{ item.cat.name }}</router-link> </span>
+            >分类: <router-link :to="{name:'cat',params:{name:item.cat.name}}">{{ item.cat.name }}</router-link> </span>
             <span class="post-meta-item">
               <router-link
                 v-for="tag in item.tags"
                 :key="tag.uuid"
                 class="tag-item"
-                :to="'/post?tags__id='+tag.id"
-                @click.stop="log()"
+                :to="{name:'tag',params:{name:tag.name}}"
               >
                 <img
                   alt="访问量"
