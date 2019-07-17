@@ -12,7 +12,7 @@
         v-model="postData.markdown"
         :tab-size="2"
         @imgAdd="imgAdd"
-        @save="saveMD"
+        @save="saveDraft()"
       ></mavonEditor>
     </div>
     <div class="button-wrapper">
@@ -20,12 +20,12 @@
       <el-button
         size="mini"
         type="primary"
-        @click="saveMD(true)"
+        @click="publishArticle()"
       >发布</el-button>
       <el-button
         size="mini"
         type="primary"
-        @click="saveMD(false)"
+        @click="saveDraft()"
       >存为草稿</el-button>
       <el-button
         size="mini"
@@ -61,11 +61,29 @@ export default {
   components: { mavonEditor, Meta },
   data() {
     return {
+      title: '创建文章',
       postData: {
         title: '',
         markdown: 'hello world',
       },
       meta: { tags: [], cat: '', desc: '', kind: '', private: false },
+    }
+  },
+  metaInfo() {
+    return {
+      title: this.title,
+      meta: [
+        {
+          vmid: 'description',
+          name: 'description',
+          content: '文章列表',
+        },
+        {
+          vmid: 'keywords',
+          name: 'keywords',
+          content: 'python,python入门,python转行',
+        },
+      ],
     }
   },
   created() {
@@ -81,10 +99,16 @@ export default {
         this.meta.cat = data.cat_id
         this.meta.desc = data.desc
         this.meta.kind = data.kind
+        this.title = '正在编辑:' + data.title
       }
     },
+    publishArticle() {
+      this.saveMD((publish = true))
+    },
+    saveDraft() {
+      this.saveMD((publish = false))
+    },
     async saveMD(publish = false) {
-      console.log('TCL: saveMD -> publish', publish)
       const id = this.$route.params.id
       let post = {
         title: this.postData.title,
