@@ -127,6 +127,8 @@ export default {
         order_by: '-created',
         private: 0,
         is_publish: 1,
+        rate__gt: 3,
+        post_type: this.$route.params.type || 'article',
       }
       const paramName = this.$route.params.name
       const routeName = this.$route.name

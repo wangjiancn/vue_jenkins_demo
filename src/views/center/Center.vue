@@ -146,8 +146,11 @@ export default {
       this.loadItems()
     },
     handleEdit(index, row) {
-      const url = '/md/' + row.id
-      window.open(url, '_blank')
+      const { href } = this.$router.resolve({
+        name: 'editPost',
+        params: { type: row.post_type, id: row.id },
+      })
+      window.open(href, '_blank')
     },
     handleDelete(index, row) {
       delArticle(row.id).then(res => {

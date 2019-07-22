@@ -28,6 +28,7 @@ import {
   Popover,
   Tooltip,
   Alert,
+  Rate,
 } from 'element-ui'
 
 Vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000 }
@@ -46,6 +47,7 @@ const components = [
   Popover,
   Tooltip,
   Alert,
+  Rate,
 ]
 
 Vue.use(Anchor)

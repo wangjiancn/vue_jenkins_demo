@@ -1,6 +1,20 @@
 <template>
   <div class="meta-container">
     <div class="meta-item">
+      <span> 文章描述: </span>
+      <el-input
+        :value="meta.desc"
+        style="width:500px"
+        placeholder="请输入内容"
+        type="textarea"
+        autosize
+        maxlength="200"
+        show-word-limit
+        @input="handleChange($event,'desc')"
+      >
+      </el-input>
+    </div>
+    <div class="meta-item">
       <span> 文章标签: </span>
       <el-select
         :value="meta.tags"
@@ -26,7 +40,6 @@
     </div>
 
     <div class="meta-item">
-
       <span>文章分类: </span>
       <el-select
         :value="meta.cat"
@@ -47,18 +60,14 @@
       </el-select>
     </div>
     <div class="meta-item">
-      <span> 文章描述: </span>
-      <el-input
-        :value="meta.desc"
-        style="width:500px"
-        placeholder="请输入内容"
-        type="textarea"
-        autosize
-        maxlength="200"
-        show-word-limit
-        @input="handleChange($event,'desc')"
+      <span> 文章进度: </span>
+      <el-rate
+        v-model="meta.rate"
+        :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
+        show-text
+        :texts="['计划中','草稿','编写中','待完善','完成']"
       >
-      </el-input>
+      </el-rate>
     </div>
     <div class="meta-item">
       <span>文章类型: </span>
@@ -75,7 +84,6 @@
           :value="item"
         >
         </el-option>
-
       </el-select>
     </div>
     <div class="meta-item">
@@ -103,12 +111,20 @@ export default {
     meta: {
       type: Object,
       default: function() {
-        return { tags: [], cat: '', desc: '', kind: '', private: false }
+        return {
+          tags: [],
+          cat: '',
+          desc: '',
+          kind: '',
+          private: false,
+          rate: 3,
+        }
       },
     },
   },
   data() {
     return {
+      iconClasses: ['icon-rate-face-1', 'icon-rate-face-2', 'icon-rate-face-3'],
       cats: [],
       catOptions: [],
       tags: [],
@@ -183,5 +199,23 @@ export default {
 }
 .meta-item > span {
   margin-right: 10px;
+}
+.meta-item > div {
+  display: inline-block;
+}
+.icon-rate-face-off:before {
+  content: '\e900';
+}
+
+.icon-rate-face-1:before {
+  content: '\e901';
+}
+
+.icon-rate-face-2:before {
+  content: '\e902';
+}
+
+.icon-rate-face-3:before {
+  content: '\e903';
 }
 </style>

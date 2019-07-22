@@ -61,17 +61,22 @@ export default {
   components: { mavonEditor, Meta },
   data() {
     return {
-      title: '创建文章',
+      title: '',
       postData: {
         title: '',
         markdown: 'hello world',
       },
-      meta: { tags: [], cat: '', desc: '', kind: '', private: false },
+      meta: { tags: [], cat: '', desc: '', kind: '', private: false, rate: 3 },
     }
+  },
+  watch: {
+    $route() {
+      this.loadItems()
+    },
   },
   metaInfo() {
     return {
-      title: this.title,
+      title: this.title || '创建文章',
       meta: [
         {
           vmid: 'description',
@@ -117,13 +122,17 @@ export default {
         ...this.meta,
       }
       post.is_publish = publish
+      post.post_type = this.$route.params.type || 'article'
       const { data } = await updateOrCreatePost(post, id)
       this.$notify({
         title: `文章${id ? '更新' : '创建'}成功`,
         type: 'success',
       })
       if (!id) {
-        this.$router.push(`/md/${data.id}`)
+        this.$router.push({
+          name: 'editPost',
+          params: { type: data.post_type, id: data.id },
+        })
       }
     },
     handleTagChange(e) {

@@ -37,7 +37,7 @@ const routes = [
         components: { default: List, tag: Tag, cat: VerticalCats },
       },
       {
-        path: '/post',
+        path: '/:type(article|wiki)',
         components: { default: List, tag: Tag, cat: VerticalCats },
       },
       {
@@ -57,13 +57,15 @@ const routes = [
     component: Personal,
     children: [
       {
-        path: '/md',
+        name: 'createPost',
+        path: '/md/:type(article|wiki)',
         component: MavoEditor,
-        children: [{ path: ':id', component: MavoEditor }],
+        children: [{ path: ':id', name: 'editPost', component: MavoEditor }],
         meta: { requreAuth: true },
       },
       {
-        path: '/post/:id',
+        name: 'postDetail',
+        path: '/post/:id(\\d+)',
         components: { default: Detail, tag: Tag, cat: VerticalCats },
       },
       { path: '/ck', component: CKEditor },

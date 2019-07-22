@@ -8,6 +8,10 @@
               :class="['/','/post'].includes($route.path) ? 'active':''"
               to="/"
             >首页</router-link>
+            <router-link
+              :class="/^\/wiki/.test($route.path) ? 'active':''"
+              to="/wiki"
+            >Wiki</router-link>
           </li>
         </ul>
       </div>
@@ -32,8 +36,8 @@
             >
             <div class="drop">
               <router-link :to="'/i/'+ user.username">{{ user.nickname || user.username }}</router-link>
-              <router-link to="/md">Markdown</router-link>
-              <router-link to="/ck">CKEditor</router-link>
+              <router-link :to="{name:'createPost',params:{type:'article'}}">写文章</router-link>
+              <router-link :to="{name:'createPost',params:{type:'wiki'}}">写wiki</router-link>
               <a @click="Logout">注销</a>
             </div>
           </li>
@@ -141,6 +145,7 @@ export default {
         }
         &:hover .drop {
           display: inline-block;
+          background: #f3f3f3;
         }
       }
     }
