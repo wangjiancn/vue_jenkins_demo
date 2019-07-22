@@ -104,6 +104,7 @@ export default {
         this.meta.cat = data.cat_id
         this.meta.desc = data.desc
         this.meta.kind = data.kind
+        this.meta.rate = data.rate
         this.title = '正在编辑:' + data.title
       }
     },
