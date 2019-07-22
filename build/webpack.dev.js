@@ -16,6 +16,9 @@ module.exports = merge(common, {
     new webpack.HotModuleReplacementPlugin(),
   ],
   devServer: {
+    watchOptions: {
+      poll: true, //解决不能监听vue文件
+    },
     hot: true,
     proxy: {
       '/api/**': {
