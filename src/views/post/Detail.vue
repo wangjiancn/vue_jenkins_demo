@@ -52,7 +52,7 @@
             v-if="$store.getters.user.username === post.author.username"
             class="post-meta-item"
           >
-            <router-link :to="'/md/'+ post.id">编辑本文</router-link>
+            <router-link :to="{name:'editPost',params:{type:post.post_type || 'article',id:post.id}}">编辑本文</router-link>
           </span>
         </div>
 
