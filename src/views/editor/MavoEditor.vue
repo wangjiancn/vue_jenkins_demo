@@ -12,7 +12,7 @@
         v-model="postData.markdown"
         :tab-size="2"
         @imgAdd="imgAdd"
-        @save="saveDraft()"
+        @save="publishArticle()"
       ></mavonEditor>
     </div>
     <div class="button-wrapper">
@@ -21,12 +21,7 @@
         size="mini"
         type="primary"
         @click="publishArticle()"
-      >发布</el-button>
-      <el-button
-        size="mini"
-        type="primary"
-        @click="saveDraft()"
-      >存为草稿</el-button>
+      >保存文章</el-button>
       <el-button
         size="mini"
         type="primary"
@@ -111,10 +106,7 @@ export default {
     publishArticle() {
       this.saveMD(true)
     },
-    saveDraft() {
-      this.saveMD(false)
-    },
-    async saveMD(publish = false) {
+    async saveMD(publish = true) {
       const id = this.$route.params.id
       let post = {
         title: this.postData.title,
@@ -128,6 +120,7 @@ export default {
       this.$notify({
         title: `文章${id ? '更新' : '创建'}成功`,
         type: 'success',
+        offset: 80,
       })
       if (!id) {
         this.$router.push({
