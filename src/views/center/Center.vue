@@ -1,5 +1,11 @@
 <template>
   <div class="m-10">
+    <el-page-header
+      class="mb-4"
+      content="我的文章"
+      title="回到首页"
+      @back="goHome"
+    > </el-page-header>
     <el-table
       :data="posts"
       border
@@ -24,13 +30,13 @@
           <el-button
             v-if="scope.row.is_publish"
             size="mini"
-            @click="cancelPublish(scope.$index, scope.row)"
-          >取消发布</el-button>
+            @click="setPrivate(scope.$index, scope.row)"
+          >设为私有</el-button>
           <el-button
             v-else
             size="mini"
-            @click="publish(scope.$index, scope.row)"
-          >发布</el-button>
+            @click="setPublic(scope.$index, scope.row)"
+          >公开文章</el-button>
           <el-button
             size="mini"
             @click="handleEdit(scope.$index, scope.row)"
@@ -97,6 +103,7 @@ export default {
         { id: 'tags', label: '标签', width: 200 },
         { id: 'cat', label: '分类', width: 100 },
         { id: 'views_count', label: '访问量', width: 100 },
+        { id: 'rate', label: '状态', width: 100 },
       ],
     }
   },
@@ -134,6 +141,7 @@ export default {
           'YYYY/MM/DD HH:mm:ss'
         )
         item.author = item.author.nickname || item.author.username
+        item.rate = ['计划中', '草稿', '编写中', '待完善', '完成'][item.rate]
         item.cat = item.cat ? item.cat.name : ''
         item.tags = item.tags.map(item => item.name).join(',')
 
@@ -157,7 +165,7 @@ export default {
         console.log(res)
       })
     },
-    publish(index, row) {
+    setPublic(index, row) {
       const data = {
         is_publish: true,
         private: false,
@@ -168,9 +176,9 @@ export default {
         this.$notify({ title: '发布成功', type: 'success', message: row.title })
       })
     },
-    cancelPublish(index, row) {
+    setPrivate(index, row) {
       const data = {
-        is_publish: false,
+        private: true,
       }
       updateOrCreatePost(data, row.id).then(res => {
         row.is_publish = false
@@ -183,6 +191,9 @@ export default {
     },
     closePopover(id) {
       this.$refs[`popover_${id}`].doClose()
+    },
+    goHome() {
+      this.$router.push('/')
     },
   },
 }

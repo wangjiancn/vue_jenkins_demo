@@ -29,6 +29,7 @@ import {
   Tooltip,
   Alert,
   Rate,
+  PageHeader,
 } from 'element-ui'
 
 Vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000 }
@@ -48,6 +49,7 @@ const components = [
   Tooltip,
   Alert,
   Rate,
+  PageHeader,
 ]
 
 Vue.use(Anchor)
