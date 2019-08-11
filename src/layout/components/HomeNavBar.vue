@@ -8,6 +8,8 @@
               :class="['/','/post'].includes($route.path) ? 'active':''"
               to="/"
             >首页</router-link>
+          </li>
+          <li class="hidden md:block">
             <router-link
               :class="/^\/wiki/.test($route.path) ? 'active':''"
               to="/wiki"
