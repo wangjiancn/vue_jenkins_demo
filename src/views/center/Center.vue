@@ -141,7 +141,9 @@ export default {
           'YYYY/MM/DD HH:mm:ss'
         )
         item.author = item.author.nickname || item.author.username
-        item.rate = ['计划中', '草稿', '编写中', '待完善', '完成'][item.rate]
+        item.rate = ['计划中', '草稿', '编写中', '待完善', '完成'][
+          item.rate - 1
+        ]
         item.cat = item.cat ? item.cat.name : ''
         item.tags = item.tags.map(item => item.name).join(',')
 
