@@ -14,4 +14,12 @@ pipeline {
             }
         }
     }
+    stages {
+        stage('Deploy') {
+            steps {
+                sh "echo Deploy testd"
+                sh "ssh ${env.REMOTE_SERVER} | \"cd $HOME $$ touch env.BUILD_ID\""
+            }
+        }
+    }
 }
