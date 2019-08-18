@@ -23,7 +23,7 @@ pipeline {
             agent any
             steps {
                 sh "echo Deploy testd"
-                sh "ssh ${env.REMOTE_SERVER} 'date >> testJenkinsDeploy;echo $(BUILD_ID:${env.BUILD_ID})>>testJenkinsDeploy'"
+                sh "ssh ${env.REMOTE_SERVER} 'date >> testJenkinsDeploy;echo BUILD_ID:${env.BUILD_ID} >>testJenkinsDeploy'"
                 sh "echo 'after ssh' >> testJenkinsDeploy"
             }
         }
