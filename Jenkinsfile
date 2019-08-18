@@ -12,7 +12,8 @@ pipeline {
             }
             steps {
                 /* sh 'npm install --registry https://registry.npm.taobao.org' */
-                sh 'npm run build'
+                /* sh 'npm run build' */
+                sh "echo build"
             }
         }
         stage('Deploy') {
