@@ -13,8 +13,6 @@ pipeline {
                 sh 'npm install --registry https://registry.npm.taobao.org && npm run build'
             }
         }
-    }
-    stages {
         stage('Deploy') {
             steps {
                 sh "echo Deploy testd"
