@@ -8,7 +8,8 @@ pipeline {
         stage('Build') {
             agent {
                 docker {
-                    image 'node:12-alpine'
+                    image 'node:12-alpine',
+                    args '-v $HOME/.npm:/root/.npm'
                 }
             }
             steps {
