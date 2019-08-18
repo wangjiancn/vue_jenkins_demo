@@ -12,7 +12,7 @@ pipeline {
             }
             steps {
                 /* sh 'npm install --registry https://registry.npm.taobao.org' */
-                /* sh 'npm run build' */
+                sh 'npm run build'
                 sh "echo build"
             }
         }
@@ -20,7 +20,7 @@ pipeline {
             agent any
             steps {
                 sh "echo Deploy testd"
-                sh "ssh ${env.REMOTE_SERVER} 'date > testJenkinsDeploy'"
+                sh "ssh ${env.REMOTE_SERVER} 'date >> testJenkinsDeploy;${env.BUILD_ID}>>testJenkinsDeploy'"
             }
         }
     }
