@@ -25,7 +25,6 @@ pipeline {
                 sh "echo Deploy testd"
                 sh "ssh ${env.REMOTE_SERVER} 'date >> testJenkinsDeploy;echo BUILD_ID:${env.BUILD_ID} >>testJenkinsDeploy'"
                 sh "ssh ${env.REMOTE_SERVER} 'echo WORKSPACE:${env.WORKSPACE} >>testJenkinsDeploy'"
-                sh "ssh ${env.REMOTE_SERVER} 'echo $(pwd) >>testJenkinsDeploy'"
                 sh "scp -r ${env.WORKSPACE}/dist  ${env.REMOTE_SERVER}"
             }
         }
