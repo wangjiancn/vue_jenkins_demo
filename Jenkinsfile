@@ -1,14 +1,15 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:12-alpine'
-        }
-    }
+    agent any
     environment {
         CI = 'true'
     }
     stages {
         stage('Build') {
+        agent {
+            docker {
+                image 'node:12-alpine'
+            }
+        }
             steps {
                 sh 'npm install --registry https://registry.npm.taobao.org && npm run build'
             }
