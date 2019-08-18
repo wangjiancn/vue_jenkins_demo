@@ -24,7 +24,8 @@ pipeline {
             steps {
                 sh "echo Deploy testd"
                 sh "ssh ${env.REMOTE_SERVER} 'date >> testJenkinsDeploy;echo BUILD_ID:${env.BUILD_ID} >>testJenkinsDeploy'"
-                sh "echo 'after ssh' >> testJenkinsDeploy"
+                sh "ssh ${env.REMOTE_SERVER} 'echo WORKSPACE:${env.WORKSPACE} >>testJenkinsDeploy'"
+                sh "ssh ${env.REMOTE_SERVER} 'echo env:${env} >>testJenkinsDeploy'"
             }
         }
     }
