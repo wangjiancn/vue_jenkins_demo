@@ -13,7 +13,7 @@ pipeline {
                 }
             }
             steps {
-                withCredentials([sshUserPrivateKey(credentialsId: '001',privatekey: 'KEY')]){
+                withCredentials([sshUserPrivateKey(credentialsId: '001',keyFileVariable:'KEY')]){
                     sh "echo $KEY"
                     sh "ssh -i $KEY ${env.REMOTE_SERVER} 'date >> testJenkinsDeploy;echo BUILD_ID:${env.BUILD_ID} >>testJenkinsDeploy'"
                     sh 'touch build/test.file'
