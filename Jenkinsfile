@@ -9,11 +9,12 @@ pipeline {
             agent {
                 docker {
                     image 'node:12-alpine'
-                    args '-v $HOME/.npm:/root/.npm -v $HOME/.ssh:/root/.ssh -v /var/cache/container/apk/cache:/etc/apk/cache'
+                    args '-v $HOME/.npm:/root/.npm  -v /var/cache/container/apk/cache:/etc/apk/cache'
                 }
             }
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: '001',keyFileVariable:'CERT')]){
+                    archiveArtifacts artifacts: 'build', fingerprint: true
                     sh 'ls /root/.ssh/'
                     sh 'apk update && apk add openssh'
                     sh "echo $CERT"
