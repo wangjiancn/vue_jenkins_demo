@@ -9,7 +9,7 @@ pipeline {
             agent {
                 docker {
                     image 'node:12-alpine'
-                    args '-v $HOME/.npm:/root/.npm -v $HOME/.ssh:/root/.ssh -v /var/cache/container/apk/cache:/etc/apk/cache'
+                    args '-v $HOME/.npm:/root/.npm -v "$HOME/.ssh":/root/.ssh -v /var/cache/container/apk/cache:/etc/apk/cache'
                 }
             }
             steps {
