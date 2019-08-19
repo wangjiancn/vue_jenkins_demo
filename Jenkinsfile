@@ -9,15 +9,15 @@ pipeline {
             agent {
                 docker {
                     image 'node:12-alpine'
-                    args '-v $HOME/.npm:/root/.npm -v "$HOME/.ssh":/root/.ssh -v /var/cache/container/apk/cache:/etc/apk/cache'
+                    args '-v $HOME/.npm:/root/.npm -v $HOME/.ssh:/root/.ssh -v /var/cache/container/apk/cache:/etc/apk/cache'
                 }
             }
             steps {
-                withCredentials([sshUserPrivateKey(credentialsId: '001',keyFileVariable:'KEY')]){
+                withCredentials([sshUserPrivateKey(credentialsId: '001',keyFileVariable:'CERT')]){
                     sh 'ls /root/.ssh/'
                     sh 'apk update && apk add openssh'
-                    sh "echo $KEY"
-                    sh "ssh -i $KEY ${env.REMOTE_SERVER} 'date >> testJenkinsDeploy;echo BUILD_ID:${env.BUILD_ID} >>testJenkinsDeploy'"
+                    sh "echo $CERT"
+                    sh "ssh -i $CERT ${env.REMOTE_SERVER} 'date >> testJenkinsDeploy;echo BUILD_ID:${env.BUILD_ID} >>testJenkinsDeploy'"
                     sh 'touch build/test.file'
                    sh 'ls build'
                     stash includes:"build/**",name:" buildConf"
