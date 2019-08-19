@@ -13,8 +13,8 @@ pipeline {
                 }
             }
             steps {
-                withCredentials([usernamePassword(credentialsId: '001', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
-                    sh 'echo $USERNAME $PASSWORD'
+                withCredentials([usernamePassword(credentialsId: '001',privatekey: 'KEY')]){
+                    sh 'echo $KEY'
                     sh 'touch build/test.file'
                    sh 'ls build'
                     stash includes:"build/**",name:" buildConf"
