@@ -13,15 +13,26 @@ pipeline {
                 }
             }
             steps {
-                sh 'pwd'
-                sh 'apk update && apk add --no-cache openssh'
-                sh 'npm install --registry https://registry.npm.taobao.org && npm run build' 
-                sh 'ls dist'
+                withCredentials([usernamePassword(credentialsId: '001', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
+                    sh 'echo $USERNAME $PASSWORD'
+                    sh 'touch build/test.file'
+                   sh 'ls build'
+                    stash includes:"build/**",name:" buildConf"
+                    /*
+                    sh 'pwd'
+                    sh 'apk update && apk add --no-cache openssh'
+                    sh 'npm install --registry https://registry.npm.taobao.org && npm run build' 
+                    sh 'ls dist'
+                    */
+                }
             }
         }
         stage('Deploy') {
             agent any
             steps {
+                unstash 'buildConf'
+                sh 'ls build'
+                sh 'ls .'
                 sh "ssh ${env.REMOTE_SERVER} 'date >> testJenkinsDeploy;echo BUILD_ID:${env.BUILD_ID} >>testJenkinsDeploy'"
                 sh "scp -r ${env.WORKSPACE}/dist  ${env.REMOTE_SERVER}:vue_blog_dist_from_ci_node"
                 sh "echo Deploy testd"
