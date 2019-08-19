@@ -13,8 +13,9 @@ pipeline {
                 }
             }
             steps {
-                withCredentials([usernamePassword(credentialsId: '001',privatekey: 'KEY')]){
-                    sh 'echo $KEY'
+                withCredentials([sshUserPrivateKey(credentialsId: '001',privatekey: 'KEY')]){
+                    sh "echo $KEY"
+                    sh "ssh -i $KEY ${env.REMOTE_SERVER} 'date >> testJenkinsDeploy;echo BUILD_ID:${env.BUILD_ID} >>testJenkinsDeploy'"
                     sh 'touch build/test.file'
                    sh 'ls build'
                     stash includes:"build/**",name:" buildConf"
