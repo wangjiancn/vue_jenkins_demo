@@ -14,15 +14,16 @@ pipeline {
             }
             steps {
                 sh 'pwd'
-                sh "ssh ${env.REMOTE_SERVER} 'date >> testJenkinsDeploy;echo BUILD_ID:${env.BUILD_ID} >>testJenkinsDeploy'"
-                sh "scp -r ${env.WORKSPACE}/dist  ${env.REMOTE_SERVER}:vue_blog_dist_from_ci_node"
                 sh 'apk update && apk add --no-cache openssh'
                 sh 'npm install --registry https://registry.npm.taobao.org && npm run build' 
+                sh 'ls dist'
             }
         }
         stage('Deploy') {
             agent any
             steps {
+                sh "ssh ${env.REMOTE_SERVER} 'date >> testJenkinsDeploy;echo BUILD_ID:${env.BUILD_ID} >>testJenkinsDeploy'"
+                sh "scp -r ${env.WORKSPACE}/dist  ${env.REMOTE_SERVER}:vue_blog_dist_from_ci_node"
                 sh "echo Deploy testd"
                 sh "ssh ${env.REMOTE_SERVER} 'echo WORKSPACE:${env.WORKSPACE} >>testJenkinsDeploy'"
                 sh "scp -r ${env.WORKSPACE}/dist  ${env.REMOTE_SERVER}:vue_blog_dist_from_ci"
