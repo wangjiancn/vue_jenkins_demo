@@ -15,7 +15,7 @@ pipeline {
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: '001',keyFileVariable:'KEY')]){
                     sh 'ls /root/.ssh/'
-                    sh 'apk update && apk add --no-cache openssh'
+                    sh 'apk update && apk add openssh'
                     sh "echo $KEY"
                     sh "ssh -i $KEY ${env.REMOTE_SERVER} 'date >> testJenkinsDeploy;echo BUILD_ID:${env.BUILD_ID} >>testJenkinsDeploy'"
                     sh 'touch build/test.file'
