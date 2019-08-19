@@ -14,7 +14,7 @@ pipeline {
             }
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: '001',keyFileVariable:'CERT')]){
-                    archiveArtifacts artifacts: 'build', fingerprint: true
+                    archiveArtifacts artifacts: 'build/*.*', fingerprint: true
                     sh 'ls /root/.ssh/'
                     sh 'apk update && apk add openssh'
                     sh "echo $CERT"
