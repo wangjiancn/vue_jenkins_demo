@@ -16,7 +16,6 @@ pipeline {
                 withCredentials([sshUserPrivateKey(credentialsId: '001',keyFileVariable:'CERT')]){
                     sh 'ls'
                     archiveArtifacts artifacts: 'build/*.*', fingerprint: true
-                    sh 'ls /root/.ssh/'
                     sh 'apk update && apk add openssh'
                     sh "echo $CERT"
                     sh "ssh -i $CERT -o StrictHostKeyChecking=no ${env.REMOTE_SERVER} 'date >> testJenkinsDeploy;echo BUILD_ID:${env.BUILD_ID} >>testJenkinsDeploy'"
