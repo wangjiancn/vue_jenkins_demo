@@ -9,11 +9,13 @@ pipeline {
             agent {
                 docker {
                     image 'node:12-alpine'
-                    args '-v $HOME/.npm:/root/.npm -v $HOME/.ssh:/root/.ssh'
+                    args '-v $HOME/.npm:/root/.npm -v $HOME/.ssh:/root/.ssh -v /var/cache/container/apk/cache:/etc/apk/cache'
                 }
             }
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: '001',keyFileVariable:'KEY')]){
+                    sh 'ls /root/.ssh/'
+                    sh 'apk update && apk add --no-cache openssh'
                     sh "echo $KEY"
                     sh "ssh -i $KEY ${env.REMOTE_SERVER} 'date >> testJenkinsDeploy;echo BUILD_ID:${env.BUILD_ID} >>testJenkinsDeploy'"
                     sh 'touch build/test.file'
