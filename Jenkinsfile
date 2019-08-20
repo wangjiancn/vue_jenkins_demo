@@ -23,6 +23,7 @@ pipeline {
                     sh 'find dist -maxdepth 3'
                     archiveArtifacts artifacts: 'dist/**', fingerprint: true
                     sshagent (credentials: ['001']) {
+                        sh "tar czv dist | ssh ${env.REMOTE_SERVER} 'tar xz'"
                         sh "scp -o StrictHostKeyChecking=no -r dist ${env.REMOTE_SERVER}"
                         sh """
                         ssh -o StrictHostKeyChecking=no ${env.REMOTE_SERVER} << EOF
