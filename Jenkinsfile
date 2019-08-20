@@ -37,7 +37,7 @@ pipeline {
             steps {
                 unstash 'buildConf'
                 sh 'ls'
-                sh 'find -maxdepth 2 -type d -ls'
+                sh 'find -maxdepth 2'
                 sh "echo Deploy completed"
             }
         }
