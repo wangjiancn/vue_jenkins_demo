@@ -19,12 +19,12 @@ pipeline {
                     sh 'npm install --registry https://registry.npm.taobao.org && npm run build' 
                     archiveArtifacts artifacts: 'dist/*.*', fingerprint: true
                     sshagent (credentials: ['001']) {
-                        sh """  
+                        sh """
+                          sh "scp -r ${env.WORKSPACE}/dist  ${env.REMOTE_SERVER}:vue_blog_dist_from_ci_node"
                           ssh -o StrictHostKeyChecking=no ${env.REMOTE_SERVER} << EOF
                           date >> testJenkinsDeploy
                           echo BUILD_ID:${env.BUILD_ID} >>testJenkinsDeploy
                           echo 'test single' >> testJenkinsDeploy
-                           sh "scp -r ${env.WORKSPACE}/dist  ${env.REMOTE_SERVER}:vue_blog_dist_from_ci_node"
                           EOF
                           """.stripIndent()
                   }
