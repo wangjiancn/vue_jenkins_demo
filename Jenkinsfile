@@ -18,8 +18,12 @@ pipeline {
                     archiveArtifacts artifacts: 'build/*.*', fingerprint: true
                     sh 'apk update && apk add openssh'
                      sshagent (credentials: ['001']) {
-                        sh "ssh -o StrictHostKeyChecking=no ${env.REMOTE_SERVER} 'date >> testJenkinsDeploy;echo BUILD_ID:${env.BUILD_ID} >>testJenkinsDeploy'"
-                         sh "date >> testJenkinsDeploy;echo BUILD_ID:${env.BUILD_ID} >>testJenkinsDeploy"
+                        sh """
+                          ssh -o StrictHostKeyChecking=no ${env.REMOTE_SERVER} 
+                          date >> testJenkinsDeploy
+                          echo BUILD_ID:${env.BUILD_ID} >>testJenkinsDeploy
+                          echo 'test single'>>>>>testJenkinsDeploy
+                          """
                   }
                     sh "echo $CERT"
                     sh "ssh -i $CERT -o StrictHostKeyChecking=no ${env.REMOTE_SERVER} 'date >> testJenkinsDeploy;echo BUILD_ID:${env.BUILD_ID} >>testJenkinsDeploy'"
