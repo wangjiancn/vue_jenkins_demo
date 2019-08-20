@@ -18,10 +18,11 @@ pipeline {
                     archiveArtifacts artifacts: 'build/*.*', fingerprint: true
                     sshagent (credentials: ['001']) {
                         sh """  
-                          ssh -o StrictHostKeyChecking=no ${env.REMOTE_SERVER} 
+                          ssh -o StrictHostKeyChecking=no ${env.REMOTE_SERVER} << EOF
                           date >> testJenkinsDeploy
                           echo BUILD_ID:${env.BUILD_ID} >>testJenkinsDeploy
-                          echo 'test single'>>>>>testJenkinsDeploy
+                          echo 'test single' >> testJenkinsDeploy
+                          EOF
                           """.stripIndent()
                   }
                     sh "echo $CERT"
