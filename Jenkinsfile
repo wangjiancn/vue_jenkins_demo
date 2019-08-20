@@ -13,6 +13,9 @@ pipeline {
                 }
             }
             steps {
+                  sshagent (credentials: ['001']) {
+                        sh "ssh -o StrictHostKeyChecking=no ${env.REMOTE_SERVER} 'date >> testJenkinsDeploy;echo BUILD_ID:${env.BUILD_ID} >>testJenkinsDeploy'"
+                  }
                 withCredentials([sshUserPrivateKey(credentialsId: '001',keyFileVariable:'CERT')]){
                     sh 'ls'
                     archiveArtifacts artifacts: 'build/*.*', fingerprint: true
