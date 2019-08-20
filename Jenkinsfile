@@ -19,10 +19,11 @@ pipeline {
                     sh 'apk update && apk add openssh'
                      sshagent (credentials: ['001']) {
                         sh """
-                          ssh -o StrictHostKeyChecking=no ${env.REMOTE_SERVER} 
+                          ssh -o StrictHostKeyChecking=no ${env.REMOTE_SERVER} <<EOF
                           date >> testJenkinsDeploy
                           echo BUILD_ID:${env.BUILD_ID} >>testJenkinsDeploy
                           echo 'test single'>>>>>testJenkinsDeploy
+                          EOF
                           """
                   }
                     sh "echo $CERT"
