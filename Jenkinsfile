@@ -20,11 +20,11 @@ pipeline {
                     sh 'touch build/test.file'
                     stash includes:"build/**",name:" buildConf"
                     sh 'npm install --registry https://registry.npm.taobao.org && npm run build' 
-                    sh 'find -maxdepth 2'
+                    sh 'find dist -maxdepth 3'
                     archiveArtifacts artifacts: 'dist/**', fingerprint: true
                     sshagent (credentials: ['001']) {
                         sh 'pwd'
-                        sh "scp -r dist  ${env.REMOTE_SERVER}:vue_blog_dist_from_ci_node"
+                        sh "scp -o StrictHostKeyChecking=no -r dist  ${env.REMOTE_SERVER}:vue_blog_dist_from_ci_node"
                         sh """
                         ssh -o StrictHostKeyChecking=no ${env.REMOTE_SERVER} << EOF
                         date >> testJenkinsDeploy
