@@ -23,7 +23,7 @@ pipeline {
                     sh 'find dist -maxdepth 3'
                     archiveArtifacts artifacts: 'dist/**', fingerprint: true
                     sshagent (credentials: ['001']) {
-                        sh "tar czv dist | ssh -o StrictHostKeyChecking=no ${env.REMOTE_SERVER} 'tar xz \$HOME/vue_blog_dist_from_ci'"
+                        sh "tar czv dist | ssh -o StrictHostKeyChecking=no ${env.REMOTE_SERVER}"
                         sh """
                         ssh -o StrictHostKeyChecking=no ${env.REMOTE_SERVER} << EOF
                         date >> testJenkinsDeploy
