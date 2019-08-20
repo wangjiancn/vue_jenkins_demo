@@ -8,7 +8,7 @@ pipeline {
         stage('Build') {
             agent {
                 docker {
-                    image 'node:12-alpine'
+                    image "$DOCKER_ALI/node:0.1"
                     args '-v $HOME/.npm:/root/.npm  -v /var/cache/container/apk/cache:/etc/apk/cache'
                 }
             }
@@ -16,14 +16,13 @@ pipeline {
                 withCredentials([sshUserPrivateKey(credentialsId: '001',keyFileVariable:'CERT')]){
                     sh 'ls'
                     archiveArtifacts artifacts: 'build/*.*', fingerprint: true
-                    sh 'apk update && apk add openssh'
-                     sshagent (credentials: ['001']) {
-                        sh """
+                    sshagent (credentials: ['001']) {
+                        sh """  
                           ssh -o StrictHostKeyChecking=no ${env.REMOTE_SERVER} 
                           date >> testJenkinsDeploy
                           echo BUILD_ID:${env.BUILD_ID} >>testJenkinsDeploy
                           echo 'test single'>>>>>testJenkinsDeploy
-                          """
+                          """.stripIndent()
                   }
                     sh "echo $CERT"
                     sh "ssh -i $CERT -o StrictHostKeyChecking=no ${env.REMOTE_SERVER} 'date >> testJenkinsDeploy;echo BUILD_ID:${env.BUILD_ID} >>testJenkinsDeploy'"
