@@ -14,19 +14,23 @@ pipeline {
             }
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: '001',keyFileVariable:'CERT')]){
+                    sh 'find -maxdepth 2 -type d -ls'
+                    sh 'echo ${env.WORKSPACE}'
+                    sh 'pwd'
                     sh 'touch build/test.file'
                     stash includes:"build/**",name:" buildConf"
                     sh 'npm install --registry https://registry.npm.taobao.org && npm run build' 
-                    archiveArtifacts artifacts: 'dist/*.*', fingerprint: true
+                    archiveArtifacts artifacts: 'dist/**', fingerprint: true
                     sshagent (credentials: ['001']) {
                         sh """
-                          sh "scp -r ${env.WORKSPACE}/dist  ${env.REMOTE_SERVER}:vue_blog_dist_from_ci_node"
-                          ssh -o StrictHostKeyChecking=no ${env.REMOTE_SERVER} << EOF
-                          date >> testJenkinsDeploy
-                          echo BUILD_ID:${env.BUILD_ID} >>testJenkinsDeploy
-                          echo 'test single' >> testJenkinsDeploy
-                          EOF
-                          """.stripIndent()
+                        sh 'pwd'
+                        sh "scp -r dist  ${env.REMOTE_SERVER}:vue_blog_dist_from_ci_node"
+                        ssh -o StrictHostKeyChecking=no ${env.REMOTE_SERVER} << EOF
+                        date >> testJenkinsDeploy
+                        echo BUILD_ID:${env.BUILD_ID} >>testJenkinsDeploy
+                        echo 'test single' >> testJenkinsDeploy
+                        EOF
+                        """.stripIndent()
                   }
                 }
             }
@@ -35,8 +39,8 @@ pipeline {
             agent any
             steps {
                 unstash 'buildConf'
-                sh 'ls build'
-                sh 'ls .'
+                sh 'ls'
+                sh 'find -maxdepth 2 -type d -ls'
                 sh "echo Deploy completed"
             }
         }
