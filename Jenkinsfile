@@ -15,7 +15,7 @@ pipeline {
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: '001',keyFileVariable:'CERT')]){
                     sh 'find -maxdepth 2'
-                    sh 'echo ${env.WORKSPACE}'
+                    sh "echo ${env.WORKSPACE}"
                     sh 'pwd'
                     sh 'touch build/test.file'
                     stash includes:"build/**",name:" buildConf"
