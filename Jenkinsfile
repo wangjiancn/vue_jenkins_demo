@@ -14,28 +14,20 @@ pipeline {
             }
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: '001',keyFileVariable:'CERT')]){
-                    sh 'ls'
-                    archiveArtifacts artifacts: 'build/*.*', fingerprint: true
+                    sh 'touch build/test.file'
+                    stash includes:"build/**",name:" buildConf"
+                    sh 'npm install --registry https://registry.npm.taobao.org && npm run build' 
+                    archiveArtifacts artifacts: 'dist/*.*', fingerprint: true
                     sshagent (credentials: ['001']) {
                         sh """  
                           ssh -o StrictHostKeyChecking=no ${env.REMOTE_SERVER} << EOF
                           date >> testJenkinsDeploy
                           echo BUILD_ID:${env.BUILD_ID} >>testJenkinsDeploy
                           echo 'test single' >> testJenkinsDeploy
+                           sh "scp -r ${env.WORKSPACE}/dist  ${env.REMOTE_SERVER}:vue_blog_dist_from_ci_node"
                           EOF
                           """.stripIndent()
                   }
-                    sh "echo $CERT"
-                    sh "ssh -i $CERT -o StrictHostKeyChecking=no ${env.REMOTE_SERVER} 'date >> testJenkinsDeploy;echo BUILD_ID:${env.BUILD_ID} >>testJenkinsDeploy'"
-                    sh 'touch build/test.file'
-                   sh 'ls build'
-                    stash includes:"build/**",name:" buildConf"
-                    /*
-                    sh 'pwd'
-                    sh 'apk update && apk add --no-cache openssh'
-                    sh 'npm install --registry https://registry.npm.taobao.org && npm run build' 
-                    sh 'ls dist'
-                    */
                 }
             }
         }
@@ -45,11 +37,7 @@ pipeline {
                 unstash 'buildConf'
                 sh 'ls build'
                 sh 'ls .'
-                sh "ssh ${env.REMOTE_SERVER} 'date >> testJenkinsDeploy;echo BUILD_ID:${env.BUILD_ID} >>testJenkinsDeploy'"
-                sh "scp -r ${env.WORKSPACE}/dist  ${env.REMOTE_SERVER}:vue_blog_dist_from_ci_node"
-                sh "echo Deploy testd"
-                sh "ssh ${env.REMOTE_SERVER} 'echo WORKSPACE:${env.WORKSPACE} >>testJenkinsDeploy'"
-                sh "scp -r ${env.WORKSPACE}/dist  ${env.REMOTE_SERVER}:vue_blog_dist_from_ci"
+                sh "echo Deploy completed"
             }
         }
     }
