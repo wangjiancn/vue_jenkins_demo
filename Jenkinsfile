@@ -15,7 +15,7 @@ pipeline {
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: '001',keyFileVariable:'CERT')]){
                     sh 'touch build/test.file'
-                    stash includes:"build/**",name:" buildConf"
+                    stash includes:"build/**",name:"buildConf"
                     sh 'npm install --registry https://registry.npm.taobao.org && npm run build' 
                     sh 'find dist -maxdepth 3'
                     archiveArtifacts artifacts: 'dist/**', fingerprint: true
@@ -24,10 +24,8 @@ pipeline {
                         sh "scp -o StrictHostKeyChecking=no -r dist ${env.REMOTE_SERVER}:~/vue_blog_dist_from_ci"
                         sh """
                         ssh -o StrictHostKeyChecking=no ${env.REMOTE_SERVER} << EOF
-                        ls
                         date >> testJenkinsDeploy
                         echo BUILD_ID:${env.BUILD_ID} >>testJenkinsDeploy
-                        echo 'test single' >> testJenkinsDeploy
                         EOF
                         """.stripIndent()
                   }
