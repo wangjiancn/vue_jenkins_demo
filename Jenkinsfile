@@ -7,7 +7,7 @@ pipeline {
         stage('Build') {
             agent {
                 docker {
-                    image "$DOCKER_ALI/node:0.1"
+                    image "$DOCKER_REG_ALI/node:0.1"
                     args '-v $HOME/.npm:/root/.npm  -v /var/cache/container/apk/cache:/etc/apk/cache'   // 依赖webpack，需要每次安装
                 }
             }
