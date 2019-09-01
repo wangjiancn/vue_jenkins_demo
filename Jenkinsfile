@@ -35,7 +35,7 @@ pipeline {
                 sh "echo Deploy completed"
             }
         }
-        state('PublishOverSSH') {
+        stage('Publish Over SSH') {
             agent any
             steps {
                 script{
