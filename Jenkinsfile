@@ -21,7 +21,7 @@ pipeline {
                     sh "scp -o StrictHostKeyChecking=no -r dist ${env.REMOTE_SERVER}:~/vue_blog_dist_from_ci"
                     sh """
                     ssh -o StrictHostKeyChecking=no ${env.REMOTE_SERVER} << EOF
-                    echo build date: $(date +"%FT%T%:z")  >> Jenkins_history.log
+                    echo build date: $(date +"%FT%T%:z") >> Jenkins_history.log
                     echo BUILD_ID: ${env.BUILD_ID} >> Jenkins_history.log
                     EOF
                     """.stripIndent()
