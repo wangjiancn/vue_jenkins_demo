@@ -21,9 +21,7 @@ pipeline {
         stage('Deploy') {
             agent any
             steps {
-                sh 'find -maxdepth 2'
                 sshagent (credentials: ['ssh']) {
-                    // sh "tar czv dist | ssh -o StrictHostKeyChecking=no ${env.REMOTE_SERVER} 'tar xz'"
                     sh "scp -o StrictHostKeyChecking=no -r dist ${env.REMOTE_SERVER}:~/vue_blog_dist_from_ci"
                     sh """
                     ssh -o StrictHostKeyChecking=no ${env.REMOTE_SERVER}<< EOF
@@ -32,29 +30,8 @@ pipeline {
                     EOF
                     """.stripIndent()
                 }
-                sh "echo Deploy completed"
-            }
-        }
-        stage('Publish Over SSH') {
-            agent any
-            steps {
-                script{
-                    sshPublisher {
-                        publishers {
-                            transfers [
-                                {
-                                    sourceFiles "target/dist/**" 
-                                    excludes "**/*.log"
-                                    removePrefix "target"
-                                    remoteDirectorySDF 'yyyyMMddHHmmss'
-                                }
-                            ]
-                        }
-                    }
-                }
             }
         }
     }
 }
 
-// sshPublisher(publishers: [sshPublisherDesc(configName: 'SERVER_to_be_deployed', transfers: [sshTransfer(excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '**/target/*.war')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
