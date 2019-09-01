@@ -14,9 +14,15 @@ pipeline {
                 }
             }
             steps {
-                sh "printenv"
                 sh 'npm install --registry https://registry.npm.taobao.org && npm run build' 
                 archiveArtifacts artifacts: 'dist/**', fingerprint: true
+            }
+        }
+        stage('Deploy') {
+            agent any
+            steps {
+                sh 'ls'
+                sh 'find -maxdepth 2'
                 sshagent (credentials: ['ssh']) {
                     // sh "tar czv dist | ssh -o StrictHostKeyChecking=no ${env.REMOTE_SERVER} 'tar xz'"
                     sh "scp -o StrictHostKeyChecking=no -r dist ${env.REMOTE_SERVER}:~/vue_blog_dist_from_ci"
@@ -27,13 +33,6 @@ pipeline {
                     EOF
                     """.stripIndent()
                 }
-            }
-        }
-        stage('Deploy') {
-            agent any
-            steps {
-                sh 'ls'
-                sh 'find -maxdepth 2'
                 sh "echo Deploy completed"
             }
         }
