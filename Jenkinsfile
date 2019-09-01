@@ -22,7 +22,7 @@ pipeline {
                     sh """
                     ssh -o StrictHostKeyChecking=no ${env.REMOTE_SERVER} << EOF
                     echo build date: $(date +"%FT%T%:z")  >> Jenkins_history.log
-                    echo BUILD_ID: ${env.BUILD_ID} \\n >> Jenkins_history.log
+                    echo BUILD_ID: ${env.BUILD_ID} >> Jenkins_history.log
                     EOF
                     """.stripIndent()
                 }
