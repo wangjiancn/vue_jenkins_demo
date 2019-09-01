@@ -35,5 +35,24 @@ pipeline {
                 sh "echo Deploy completed"
             }
         }
+        state('Deploy over ssh') {
+            agent any
+            steps {
+                script{
+                    sshPublisher {
+                        publishers {
+                            transfers [
+                                {
+                                    sourceFiles "target/dist/**" 
+                                    excludes "**/*.log"
+                                    removePrefix "target"
+                                    remoteDirectorySDF 'yyyyMMddHHmmss'
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        }
     }
 }
