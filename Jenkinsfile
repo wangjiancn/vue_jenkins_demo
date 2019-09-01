@@ -21,7 +21,6 @@ pipeline {
         stage('Deploy') {
             agent any
             steps {
-                sh 'ls'
                 sh 'find -maxdepth 2'
                 sshagent (credentials: ['ssh']) {
                     // sh "tar czv dist | ssh -o StrictHostKeyChecking=no ${env.REMOTE_SERVER} 'tar xz'"
