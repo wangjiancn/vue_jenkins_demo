@@ -14,13 +14,14 @@ pipeline {
                 }
             }
             steps {
+                sh "printenv"
                 sh 'npm install --registry https://registry.npm.taobao.org && npm run build' 
                 archiveArtifacts artifacts: 'dist/**', fingerprint: true
                 sshagent (credentials: ['ssh']) {
                     // sh "tar czv dist | ssh -o StrictHostKeyChecking=no ${env.REMOTE_SERVER} 'tar xz'"
                     sh "scp -o StrictHostKeyChecking=no -r dist ${env.REMOTE_SERVER}:~/vue_blog_dist_from_ci"
                     sh """
-                    ssh -o StrictHostKeyChecking=no ${env.REMOTE_SERVER} << EOF
+                    ssh -o StrictHostKeyChecking=no ${env.REMOTE_SERVER}<< EOF
                     echo build date: $(date +'%FT%T%:z') >> Jenkins_history.log
                     echo BUILD_ID: ${env.BUILD_ID} >> Jenkins_history.log
                     EOF
