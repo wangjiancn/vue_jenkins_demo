@@ -35,7 +35,7 @@ pipeline {
                 sh "echo Deploy completed"
             }
         }
-        state('Deploy over ssh') {
+        state('PublishOverSSH') {
             agent any
             steps {
                 script{
@@ -56,3 +56,5 @@ pipeline {
         }
     }
 }
+
+// sshPublisher(publishers: [sshPublisherDesc(configName: 'SERVER_to_be_deployed', transfers: [sshTransfer(excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '**/target/*.war')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
